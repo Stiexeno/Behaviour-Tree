@@ -1,7 +1,7 @@
 using UnityEngine;
 using SF = UnityEngine.SerializeField;
 
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
 	public class Blackboard : ScriptableObject
 	{

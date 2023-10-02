@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Framework.Graph;
+using Framework.GraphView;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public interface IGraphSelection
 	{

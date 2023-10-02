@@ -1,6 +1,6 @@
 using System;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public class Result<TError, TValue>
 	{

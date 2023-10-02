@@ -1,4 +1,4 @@
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
 	public class BTParallel : BTComposite
 	{

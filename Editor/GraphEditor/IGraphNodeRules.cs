@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public interface IGraphNodeRules
 	{

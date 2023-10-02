@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using SF = UnityEngine.SerializeField;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public class GraphAreaSelect : MonoBehaviour
 	{

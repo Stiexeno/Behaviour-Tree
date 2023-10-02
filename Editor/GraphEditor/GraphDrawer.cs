@@ -1,8 +1,8 @@
-using Framework.Graph.BT;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public static class GraphDrawer
 	{

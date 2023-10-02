@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
 	public class BTAgent : MonoBehaviour
     {

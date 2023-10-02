@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Framework.Graph;
+using Framework.GraphView;
 using UnityEngine;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public class GraphNode : IIterableNode<GraphNode>, IGUIElement
 	{

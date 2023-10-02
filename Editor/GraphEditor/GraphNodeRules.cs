@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Framework.Graph;
+using Framework.GraphView;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public abstract class GraphNodeRules<T> : IGraphNodeRules where T: GraphBehaviour
 	{

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public abstract class GraphToolbar : IGUIView
 	{

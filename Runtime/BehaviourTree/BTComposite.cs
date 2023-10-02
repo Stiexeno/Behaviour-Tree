@@ -1,6 +1,7 @@
 using System;
+using Framework.GraphView;
 
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
 	public abstract class BTComposite : BTNode
 	{

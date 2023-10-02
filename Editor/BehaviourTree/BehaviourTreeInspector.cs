@@ -1,14 +1,15 @@
 using System.Collections.Generic;
-using Framework.Graph.BT;
+using Framework.GraphView.Editor;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class BehaviourTreeInspector : IGUIView
 	{
 		// Private fields
-		
+
 		private BTNode node;
 
 		private float inspectorWidth = 200f;
@@ -81,16 +82,16 @@ namespace Framework.Editor.Graph.BT
 			EditorGUI.DrawRect(header, new Color(0.24f, 0.24f, 0.24f));
 			//EditorGUI.LabelField(header, $"{tree.name}");
 
-			EditorHelper.DrawHorizontalLine(header.SetY(30));
+			GraphStyle.DrawHorizontalLine(header.SetY(30), 1);
 
-			if (node != null)
-			{
-				var contentRect = rect;
-				GUILayout.BeginArea(contentRect.AddX(15).AddWidth(-20).AddY(40));
-				var serialziedObjhect = new SerializedObject(node);
-				serialziedObjhect.DrawInspectorExcept("m_Script");
-				GUILayout.EndArea();
-			}
+			//if (node != null)
+			//{
+			//	var contentRect = rect;
+			//	GUILayout.BeginArea(contentRect.AddX(15).AddWidth(-20).AddY(40));
+			//	var serialziedObjhect = new SerializedObject(node);
+			//	serialziedObjhect.DrawInspectorExcept("m_Script");
+			//	GUILayout.EndArea();
+			//}
 		}
 
 		private void DrawTabs()
@@ -135,7 +136,7 @@ namespace Framework.Editor.Graph.BT
 			const float buttonWidth = 30f;
 
 			var toolbarRect = rect.SetHeight(35f).AddY(23f);
-			EditorHelper.DrawHorizontalLine(toolbarRect, color: new Color(0.25f, 0.25f, 0.25f));
+			GraphStyle.DrawHorizontalLine(toolbarRect, 1, new Color(0.25f, 0.25f, 0.25f));
 
 			toolbarRect = toolbarRect.AddY(1f);
 			EditorGUI.DrawRect(toolbarRect, new Color(0.1f, 0.1f, 0.1f));
@@ -170,7 +171,7 @@ namespace Framework.Editor.Graph.BT
 		private void DrawLayers()
 		{
 			var toolbarRect = rect.SetHeight(20f).AddY(58f);
-			EditorHelper.DrawHorizontalLine(toolbarRect, color: new Color(0.25f, 0.25f, 0.25f));
+			GraphStyle.DrawHorizontalLine(toolbarRect, 1, new Color(0.25f, 0.25f, 0.25f));
 
 			toolbarRect = toolbarRect.AddY(1f);
 			EditorGUI.DrawRect(toolbarRect, new Color(0.1f, 0.1f, 0.1f));

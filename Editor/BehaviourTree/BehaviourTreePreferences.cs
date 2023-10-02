@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Framework.Graph.BT;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class BehaviourTreePreferences : ScriptableObject
 	{
@@ -70,7 +70,7 @@ namespace Framework.Editor.Graph.BT
 		private static BehaviourTreePreferences LoadDefaultPreferences()
 		{
 			var prefs = AssetDatabase.LoadAssetAtPath(
-				"Packages/com.framework.dependency-injection/Editor/Graph/BehaviourTree/Preferences/BehaviourTreePreferences.asset",
+				"Packages/com.framework.behaviour.tree/Editor/BehaviourTree/Preferences/BehaviourTreePreferences.asset",
 				typeof(BehaviourTreePreferences)) as BehaviourTreePreferences;
 
 			if (prefs == null)

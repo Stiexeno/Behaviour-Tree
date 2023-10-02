@@ -4,7 +4,7 @@ using System.Timers;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public enum NodeContext { FormatTree, Delete, DuplicateSelection }
 

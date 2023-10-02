@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using Framework.Editor.Graph.BT;
-using Framework.Graph;
-using Framework.Graph.BT;
+using Framework.Bot.Editor;
+using Framework.GraphView;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public abstract class GraphWindow : GUIWindow
 	{

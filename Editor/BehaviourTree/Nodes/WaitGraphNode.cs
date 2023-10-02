@@ -1,9 +1,9 @@
-using Framework.Editor;
-using Framework.Graph.BT;
+using Framework.GraphView.Editor;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class WaitGraphNode : BTGraphNode
 	{

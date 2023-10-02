@@ -1,9 +1,10 @@
 using System.Linq;
+using Framework.GraphView;
 using UnityEngine;
 
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
-	[CreateAssetMenu(menuName = "Framework/BehaviourTree/BehaviourTree")]
+	[CreateAssetMenu(menuName = "Framework/Bot/BehaviourTree")]
     public class BehaviourTree : GraphTree
     {
     	public BTNode root;

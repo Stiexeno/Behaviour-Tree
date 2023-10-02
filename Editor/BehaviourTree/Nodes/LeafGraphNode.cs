@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Framework;
-using Framework.Editor;
+using Framework.GraphView.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class LeafGraphNode : BTGraphNode
 	{

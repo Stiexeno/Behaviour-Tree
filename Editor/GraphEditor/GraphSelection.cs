@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Framework.Graph;
-using Framework.Graph.BT;
+using Framework.GraphView;
+using Framework.Bot;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public class GraphSelection : IGraphSelection
 	{

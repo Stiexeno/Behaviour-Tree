@@ -1,4 +1,6 @@
-namespace Framework.Graph.BT
+using Framework.GraphView;
+
+namespace Framework.Bot
 {
 	public abstract class BTDecorator : BTNode
 	{

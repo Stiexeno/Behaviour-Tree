@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class ParallelGraphNode : CompositeGraphNode
 	{

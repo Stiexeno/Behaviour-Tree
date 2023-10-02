@@ -1,4 +1,4 @@
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public interface IGUIElement
 	{

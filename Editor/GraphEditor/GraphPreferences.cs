@@ -2,9 +2,8 @@ using UnityEditor;
 using UnityEngine;
 using SF = UnityEngine.SerializeField;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
-	[CreateAssetMenu(fileName = "GraphPreferences", menuName = "GraphView/Preferences")]
 	public class GraphPreferences : ScriptableObject
 	{
 		public Texture2D gridTexture;
@@ -44,7 +43,7 @@ namespace Framework.Editor.Graph
 
 		private static GraphPreferences LoadDefaultPreferences()
 		{
-			var prefs = AssetDatabase.LoadAssetAtPath("Packages/com.framework.dependency-injection/Editor/Graph/GraphEditor/GraphPreferences.asset", typeof(GraphPreferences)) as GraphPreferences;
+			var prefs = AssetDatabase.LoadAssetAtPath("Packages/com.framework.behaviour.tree/Editor/GraphEditor/GraphPreferences.asset", typeof(GraphPreferences)) as GraphPreferences;
 
 			if (prefs == null)
 			{

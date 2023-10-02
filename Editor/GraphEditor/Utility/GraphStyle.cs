@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using SF = UnityEngine.SerializeField;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public static class GraphStyle
 	{
@@ -146,6 +146,63 @@ namespace Framework.Editor.Graph
 			rect.y += 2;
 			rect.height = 1;
 			EditorGUI.DrawRect(rect, new Color(0.5f, 0.5f, 0.5f));
+		}
+		
+		public static void DrawHorizontalLine(Rect rect, int thickness, Color color = default)
+		{
+			rect.height = thickness;
+			var targetColor = color == default ? new Color(0.15f, 0.15f, 0.16f) : color;
+			EditorGUI.DrawRect(rect, targetColor);
+		}
+		
+		/// <summary>
+		/// Draws a border rect in the editor by given rect
+		/// </summary>
+		/// <param name="area">Rect area</param>
+		/// <param name="color">Border color</param>
+		/// <param name="borderWidth">Border width</param>
+		public static void DrawBorderRect(Rect area, Color color,
+			float borderWidth)
+		{
+			//------------------------------------------------
+			float x1 = area.x;
+			float y1 = area.y;
+			float x2 = area.width;
+			float y2 = borderWidth;
+
+			Rect lineRect = new Rect(x1, y1, x2, y2);
+
+			EditorGUI.DrawRect(lineRect, color);
+
+			//------------------------------------------------
+			x1 = area.x + area.width - 1f;
+			y1 = area.y;
+			x2 = borderWidth;
+			y2 = area.height;
+
+			lineRect = new Rect(x1, y1, x2, y2);
+
+			EditorGUI.DrawRect(lineRect, color);
+
+			//------------------------------------------------
+			x1 = area.x;
+			y1 = area.y;
+			x2 = borderWidth;
+			y2 = area.height;
+
+			lineRect = new Rect(x1, y1, x2, y2);
+
+			EditorGUI.DrawRect(lineRect, color);
+
+			//------------------------------------------------
+			x1 = area.x;
+			y1 = area.y + area.height - 1f;
+			x2 = area.width;
+			y2 = borderWidth;
+
+			lineRect = new Rect(x1, y1, x2, y2);
+
+			EditorGUI.DrawRect(lineRect, color);
 		}
 	}
 

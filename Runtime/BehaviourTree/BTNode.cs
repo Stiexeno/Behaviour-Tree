@@ -1,8 +1,7 @@
 using System;
-using Framework.Utils;
-using UnityEngine;
+using Framework.GraphView;
 
-namespace Framework.Graph.BT
+namespace Framework.Bot
 {
 	public enum BTStatus { Inactive, Success, Failure, Running }
 
@@ -88,7 +87,7 @@ namespace Framework.Graph.BT
 			}
 			catch (Exception e)
 			{
-				throw new Exception($"{e.Message} \n{e.StackTrace.SetColor(new Color(0.98f, 0.69f, 0.16f))}");
+				throw new Exception($"{e.Message} \n{e.StackTrace}");
 			}
 
 			status = newStatus;

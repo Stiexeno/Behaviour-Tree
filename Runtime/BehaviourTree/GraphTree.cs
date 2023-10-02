@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Framework.Graph.BT;
+using Framework.Bot;
 using UnityEngine;
 
-namespace Framework.Graph
+namespace Framework.GraphView
 {
 	public abstract class GraphTree : ScriptableObject
 	{

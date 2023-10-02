@@ -1,11 +1,12 @@
 using System;
-using Framework.Graph;
-using Framework.Graph.BT;
+using Framework.GraphView.Editor;
+using Framework.GraphView;
+using Framework.Bot;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class BehaviourTreeWindow : GraphWindow
 	{
@@ -18,11 +19,11 @@ namespace Framework.Editor.Graph.BT
 		internal override GraphTree Tree { get; set; }
 		protected override IGraphNodeRules Rules { get; } = new BehaviourTreeGraphNodeRules();
 
-		[MenuItem("Framework/Behaviour Tree")]
+		[MenuItem("Framework/Bot/Open Editor")]
 		private static void Init()
 		{
 			window = GetWindow<BehaviourTreeWindow>();
-			window.titleContent = new GUIContent("Behaviour Tree");
+			window.titleContent = new GUIContent("Bot Editor");
 			window.Show();
 		}
 
@@ -105,7 +106,7 @@ namespace Framework.Editor.Graph.BT
 				return false;
 
 			BehaviourTreeWindow behaviourWindow = Open<BehaviourTreeWindow>(root);
-			behaviourWindow.titleContent = new GUIContent("Behaviour Tree");
+			behaviourWindow.titleContent = new GUIContent("Bot Editor");
 
 			if (behaviourWindow != null)
 			{

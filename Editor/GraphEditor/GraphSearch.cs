@@ -1,11 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Framework.Editor;
 using UnityEditor;
 using SF = UnityEngine.SerializeField;
 
-namespace Framework.Editor.Graph
+namespace Framework.GraphView.Editor
 {
 	public class GraphSearch
 	{
@@ -61,7 +60,7 @@ namespace Framework.Editor.Graph
 
 			rect = new Rect(position, new Vector2(400, 420));
 			EditorGUI.DrawRect(rect, new Color(0.1f, 0.1f, 0.1f));
-			EditorHelper.DrawBorderRect(rect, new Color(0.5f, 0.5f, 0.5f), 1f);
+			GraphStyle.DrawBorderRect(rect, new Color(0.5f, 0.5f, 0.5f), 1f);
 
 			var fieldRect = new Rect(rect.x + 5, rect.y + 5, rect.width - 10, 25);
 

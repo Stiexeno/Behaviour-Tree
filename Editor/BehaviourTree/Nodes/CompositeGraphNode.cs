@@ -1,9 +1,10 @@
 using DG.DemiEditor;
-using Framework.Graph.BT;
+using Framework.GraphView.Editor;
+using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public abstract class CompositeGraphNode : BTGraphNode
 	{
@@ -17,7 +18,7 @@ namespace Framework.Editor.Graph.BT
 
 		public override void OnGUI(Rect rect)
 		{
-			EditorGUI.LabelField(rect.SetHeight(15f), Header, GraphStyle.Header0Middle);
+			EditorGUI.LabelField(RectExtensions.SetHeight(rect, 15f), Header, GraphStyle.Header0Middle);
 
 			var icon = Icon;
 			var iconRect = new Rect(rect.x + rect.width / 2f - 32, rect.y + 25, 64, 32);

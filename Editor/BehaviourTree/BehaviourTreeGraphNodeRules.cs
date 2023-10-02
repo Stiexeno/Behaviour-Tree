@@ -1,7 +1,8 @@
 using System;
-using Framework.Graph.BT;
+using Framework.GraphView.Editor;
+using Framework.Bot;
 
-namespace Framework.Editor.Graph.BT
+namespace Framework.Bot.Editor
 {
 	public class BehaviourTreeGraphNodeRules : GraphNodeRules<BTNode>
 	{
