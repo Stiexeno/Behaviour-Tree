@@ -69,9 +69,7 @@ namespace Framework.Bot.Editor
 
 		private static BehaviourTreePreferences LoadDefaultPreferences()
 		{
-			var prefs = AssetDatabase.LoadAssetAtPath(
-				"Packages/com.framework.dependency-injection/Bot/Editor/Bot/Preferences/BehaviourTreePreferences.asset",
-				typeof(BehaviourTreePreferences)) as BehaviourTreePreferences;
+			var prefs = Resources.Load<BehaviourTreePreferences>("BehaviourTreePreferences");
 
 			if (prefs == null)
 			{
