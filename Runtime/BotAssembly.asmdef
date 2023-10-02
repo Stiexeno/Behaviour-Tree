@@ -1,12 +1,8 @@
 {
-    "name": "Framework.BT.Editor",
+    "name": "BotAssembly",
     "rootNamespace": "",
-    "references": [
-        "FrameworkBT"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

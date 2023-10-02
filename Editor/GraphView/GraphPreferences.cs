@@ -43,7 +43,7 @@ namespace Framework.GraphView.Editor
 
 		private static GraphPreferences LoadDefaultPreferences()
 		{
-			var prefs = AssetDatabase.LoadAssetAtPath("Packages/com.framework.behaviour.tree/Editor/GraphEditor/GraphPreferences.asset", typeof(GraphPreferences)) as GraphPreferences;
+			var prefs = AssetDatabase.LoadAssetAtPath("Packages/com.framework.bot/Editor/GraphView/GraphPreferences.asset", typeof(GraphPreferences)) as GraphPreferences;
 
 			if (prefs == null)
 			{
