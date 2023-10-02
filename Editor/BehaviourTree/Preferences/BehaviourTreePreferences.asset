@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c108915c779306419a91932bf8f8ce0, type: 3}
+  m_Name: BehaviourTreePreferences
+  m_EditorClassIdentifier: 
+  sequencerIcon: {fileID: 2800000, guid: 6fc775cdbaed64340918dcbf66a93f47, type: 3}
+  selectorIcon: {fileID: 2800000, guid: 7a3d446be9b00c347a521b07624a696d, type: 3}
+  waitIcon: {fileID: 2800000, guid: 0b0baa0e48a3bcf49b639656ecf31fca, type: 3}
+  parallelcon: {fileID: 2800000, guid: 0c36c6e088bf44d4293d2da75cc0d05b, type: 3}
+  closeIcon: {fileID: 2800000, guid: d6e05094d1daf2740a1c5c6d9f5fb733, type: 3}
+  dotIcon: {fileID: 2800000, guid: e44ee98354ee8ec4b851bd7ca3dc3818, type: 3}
+  saveIcon: {fileID: 2800000, guid: 6dfdac5b604268343ab637416cc765a7, type: 3}
+  loadIcon: {fileID: 2800000, guid: 1084e609f9b0bc6449e29194b3879174, type: 3}
+  formatIcon: {fileID: 2800000, guid: 0c5e7a3c8ac443647b3ded190fb48bfe, type: 3}
+  createIcon: {fileID: 2800000, guid: 8ab07460d6fa4474fa4896b461f243f4, type: 3}
+  savedGraphs:
+  - Assets/Configs/PlayerBT.asset
+  - Assets/Configs/TankAI_BT.asset
+  - Assets/Configs/AbilityAI_BT.asset
+  - 
