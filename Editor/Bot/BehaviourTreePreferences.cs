@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,8 +19,10 @@ namespace Framework.Bot.Editor
 		public Texture2D formatIcon;
 		public Texture2D createIcon;
 
-		public List<string> savedGraphs = new List<string>();
-
+		[HideInInspector] public List<string> savedGraphs = new List<string>();
+		
+		// Private fields
+		
 		private static BehaviourTreePreferences instance;
 
 		public static BehaviourTreePreferences Instance
@@ -35,8 +36,6 @@ namespace Framework.Bot.Editor
 
 				return instance;
 			}
-
-			set { instance = value; }
 		}
 
 		public void SaveGraph(string path)

@@ -24,15 +24,14 @@ namespace Framework.GraphView.Editor
 		public GraphSearch(GraphEditor editor)
 		{
 			this.editor = editor;
-
 			editor.Input.MouseDown += OnMouseDown;
 		}
 
 		private void OnMouseDown(object sender, GraphInputEvent e)
 		{
-			if (rect.Contains(Event.current.mousePosition) == false)
+			if (IsActive && rect.Contains(Event.current.mousePosition) == false)
 			{
-				IsActive = false;
+				Close();
 			}
 		}
 
@@ -49,6 +48,7 @@ namespace Framework.GraphView.Editor
 		public void Close()
 		{
 			IsActive = false;
+			editor.ClearActions();
 		}
 
 		public Rect Draw()
@@ -75,13 +75,13 @@ namespace Framework.GraphView.Editor
 		private void PollInput()
 		{
 			if (GraphInput.IsExitAction(Event.current))
-				IsActive = false;
+				Close();
 
 			if (rect.Contains(Event.current.mousePosition))
 				return;
 
 			if (GraphInput.IsClickAction(Event.current))
-				IsActive = false;
+				Close();
 		}
 
 		private void DrawContent(Rect rect)
@@ -111,7 +111,7 @@ namespace Framework.GraphView.Editor
 
 	public class GraphSearchMenu
 	{
-		public List<GraphMenuItem> menuItems = new List<GraphMenuItem>();
+		public readonly List<GraphMenuItem> menuItems = new List<GraphMenuItem>();
 
 		public void AddItem(string name, Action action)
 		{

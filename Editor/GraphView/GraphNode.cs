@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Framework.GraphView;
 using UnityEngine;
 
 namespace Framework.GraphView.Editor
@@ -29,8 +28,8 @@ namespace Framework.GraphView.Editor
 			set => rectPosition.position = value;
 		}
 
-		public virtual Vector2 Size { get; protected set; } = new Vector2(100, 100);
-		public virtual Color Outline { get; protected set; } = Color.clear;
+		public virtual Vector2 Size { get; } = new Vector2(100, 100);
+		public virtual Color Outline { get; } = Color.clear;
 
 		public bool HasOutput { get; set; }
 
@@ -87,23 +86,9 @@ namespace Framework.GraphView.Editor
 			}
 		}
 
-		public GraphNode()
-		{
-		}
-
 		// Virtual methods
 
 		public virtual void OnGUI(Rect rect)
-		{
-			
-		}
-
-		public virtual void OnInputConnect()
-		{
-			
-		}
-
-		public virtual void OnOutputConnect()
 		{
 			
 		}

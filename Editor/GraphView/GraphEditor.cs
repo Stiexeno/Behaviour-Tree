@@ -196,6 +196,14 @@ namespace Framework.GraphView.Editor
 				case NodeContext.Delete:
 					RemoveSelectedNodes();
 					break;
+				
+				case NodeContext.Duplicate:
+					NodeSelection.SetSingleSelection(GraphNodeCreation.DuplicateSingle(Canvas, NodeSelection.SingleSelectedNode));
+					break;
+				
+				case NodeContext.DuplicateSelection:
+					NodeSelection.SetMultiSelection(GraphNodeCreation.DuplicateMultiple(Canvas, NodeSelection.SelectedNodes));
+					break;
 			}
 
 			//UpdateAbortableSelection();
@@ -260,7 +268,10 @@ namespace Framework.GraphView.Editor
 					}
 					else
 					{
-						Search.Open(Event.current.mousePosition, Window.position);
+						if (isOutputFocused)
+						{
+							Search.Open(Event.current.mousePosition, Window.position);	
+						}
 					}
 				};
 

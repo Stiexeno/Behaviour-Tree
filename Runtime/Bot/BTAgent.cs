@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
+using SF = UnityEngine.SerializeField;
 
 namespace Framework.Bot
 {
 	public class BTAgent : MonoBehaviour
     {
-    	public BehaviourTree behaviourTree;
+	    // Serialized fields
+	    
+    	[SF] private BehaviourTree behaviourTree;
     
-    	public BehaviourTree treeInstance;
+	    // Private fields
+	    
+    	protected BehaviourTree treeInstance;
     	
+	    // Properties
+	    
     	public BehaviourTree Tree => treeInstance;
     
     	private void Awake()
@@ -43,21 +50,6 @@ namespace Framework.Bot
     		{
     			node.OnReset();
     		}
-    
-    		//if (result != BTStatus.Running)
-    		//{
-    		//	node.OnExit(btParams);
-    //
-    		//	node = node;
-    //
-    		//	if (node.NodeType == NodeType.Composite)
-    		//	{
-    		//		((BTComposite)node).ChildCompletedRunning(btParams, result);
-    		//		result = node.RunUpdate(btParams);
-    		//	}
-            //    
-    		//	node.OnReset(btParams);
-    		//}
     	}
     }
 }

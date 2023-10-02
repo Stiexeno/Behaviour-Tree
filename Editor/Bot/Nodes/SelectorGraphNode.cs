@@ -1,4 +1,3 @@
-using Framework.Bot;
 using UnityEngine;
 
 namespace Framework.Bot.Editor

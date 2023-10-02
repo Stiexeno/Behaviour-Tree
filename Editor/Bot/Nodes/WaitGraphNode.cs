@@ -1,5 +1,4 @@
 using Framework.GraphView.Editor;
-using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
 

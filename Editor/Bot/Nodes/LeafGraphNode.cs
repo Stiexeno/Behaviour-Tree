@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Framework;
-using Framework.GraphView.Editor;
+﻿using Framework.GraphView.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,8 +14,6 @@ namespace Framework.Bot.Editor
 			DynamicSize = Size;
 			EditorGUI.LabelField(rect.SetHeight(20f), $"{Behaviour.GetType().Name}", GraphStyle.Header0Middle);
 			base.OnGUI(rect);
-		
-			//DrawDecorators(rect, new List<string>());
 		}
 	}
 }
