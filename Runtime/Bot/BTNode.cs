@@ -4,7 +4,6 @@ using Framework.GraphView;
 namespace Framework.Bot
 {
 	public enum BTStatus { Inactive, Success, Failure, Running }
-
 	public enum NodeType { Composite, Decorator, Leaf, Root }
 
 	public abstract class BTNode : GraphBehaviour
@@ -60,20 +59,8 @@ namespace Framework.Bot
 			status = BTStatus.Inactive;
 		}
 
-		/// <summary>
-		/// Used by Decorators to evaluate if a condition succeeds or not.
-		/// </summary>
-		/// <returns></returns>
-		public virtual bool DryRun()
-		{
-			return false;
-		}
-
 		public BTStatus RunUpdate()
 		{
-			//if (status == BTStatus.Success || status == BTStatus.Failure)
-			//	return status;
-
 			if (status == BTStatus.Inactive)
 			{
 				OnEnter();

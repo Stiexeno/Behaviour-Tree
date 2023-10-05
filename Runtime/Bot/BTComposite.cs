@@ -63,9 +63,5 @@ namespace Framework.Bot
 		{
 			return children[index];
 		}
-
-		public virtual void ChildCompletedRunning(BTParams btParams, BTStatus result)
-		{
-		}
 	}
 }

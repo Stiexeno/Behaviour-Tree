@@ -27,18 +27,5 @@ namespace Framework.Bot
 
 			return currentStatus;
 		}
-
-		public override void ChildCompletedRunning(BTParams btParams, BTStatus result)
-		{
-			if (result == BTStatus.Failure || result == BTStatus.Success)
-			{
-				SetCurrentChild(GetCurrentChild() + 1);
-			}
-			else
-			{
-				SetCurrentChild(children.Length);
-				status = BTStatus.Success;
-			}
-		}
 	}
 }
