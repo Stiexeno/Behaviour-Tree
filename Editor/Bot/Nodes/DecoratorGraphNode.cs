@@ -12,7 +12,7 @@ namespace Framework.Bot.Editor
 		public override void OnGUI(Rect rect)
 		{
 			DynamicSize = Size;
-			EditorGUI.LabelField(rect.SetHeight(20f), GetFormattedName(), GraphStyle.Header0Middle);
+			EditorGUI.LabelField(rect.SetHeight(20f), GetFormattedName().AddSpacesBetweenCapital(), GraphStyle.Header0Middle);
 			GraphStyle.DrawHorizontalLine(rect.AddY(30));
 
 			var decorator = Behaviour as BTDecorator;

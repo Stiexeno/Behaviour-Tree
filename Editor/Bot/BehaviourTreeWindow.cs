@@ -83,7 +83,7 @@ namespace Framework.Bot.Editor
 
 				if (nodeType.IsSubclassOf(typeof(BTDecorator)))
 				{
-					menu.AddItem($"{behaviour.Key.Name}", () => RequestCreateNode(nodeType));
+					menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
 				}
 			}
 
@@ -99,7 +99,7 @@ namespace Framework.Bot.Editor
 					    behaviour.Key == typeof(BTLog))
 						continue;
 
-					menu.AddItem($"{behaviour.Key.Name}", () => RequestCreateNode(nodeType));
+					menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
 				}
 			}
 		}
