@@ -19,10 +19,12 @@ namespace Framework.Bot.Editor
 			var invertText = decorator.invert ? "Invert" : "Direct";
 			
 			GUI.color = decorator.invert ? new Color(0.97f, 0.02f, 0f) : new Color(0f, 0.97f, 0.02f);
-			EditorGUI.LabelField(rect.SetWidth(20).SetHeight(20).AddX(3).AddY(36), new GUIContent("", BehaviourTreePreferences.Instance.dotIcon));
+			EditorGUI.LabelField(rect.SetWidth(20).SetHeight(20).AddX(3).AddY(35), new GUIContent("", BehaviourTreePreferences.Instance.dotIcon));
 			GUI.color = Color.white;
 			
-			if (GUI.Button(rect.AddX(18f).AddY(35).SetHeight(20), invertText, EditorStyles.label))
+			EditorGUI.LabelField(rect.AddX(18f).AddY(35).SetHeight(20).AddX(2), invertText);
+            
+			if (GUI.Button(rect.AddY(35).SetHeight(20).SetWidth(60), "", GUIStyle.none))
 			{
 				decorator.invert = !decorator.invert;
 			}
