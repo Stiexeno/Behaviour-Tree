@@ -52,6 +52,9 @@ namespace Framework.GraphView.Editor
 
 		public void SaveCanvas(GraphCanvas canvas, TreeMetaData treeMetaData)
 		{
+			if (canvas == null)
+				return;
+			
 			if (AssetDatabase.Contains(canvas.Tree) == false)
 			{
 				GetSaveFilePath()

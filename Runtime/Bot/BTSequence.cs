@@ -23,18 +23,5 @@
 
 			return currentStatus;
 		}
-
-		public override void ChildCompletedRunning(BTParams btParams, BTStatus result)
-		{
-			if (result == BTStatus.Failure)
-			{
-				SetCurrentChild(children.Length);
-				status = BTStatus.Failure;
-			}
-			else
-			{
-				SetCurrentChild(GetCurrentChild() + 1);
-			}
-		}
 	}
 }
