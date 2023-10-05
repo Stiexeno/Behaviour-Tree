@@ -7,12 +7,12 @@ namespace Framework.Bot.Editor
 	public class LeafGraphNode : BTGraphNode
 	{
 		public override Vector2 Size => new Vector2(175, 30);
-		public override Color Outline => new Color(0f, 0f, 0f);
-    
+		public override Color Outline => BTLocalPreferences.Instance.leafColor;
+
 		public override void OnGUI(Rect rect)
 		{
 			DynamicSize = Size;
-			EditorGUI.LabelField(rect.SetHeight(20f), $"{Behaviour.GetType().Name}", GraphStyle.Header0Middle);
+			EditorGUI.LabelField(rect.SetHeight(20f), GetFormattedName(), GraphStyle.Header0Middle);
 			base.OnGUI(rect);
 		}
 	}

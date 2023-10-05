@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Framework.GraphView;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Framework.GraphView.Editor
@@ -10,23 +11,23 @@ namespace Framework.GraphView.Editor
 	public class GraphEditor
 	{
 		private GraphNode lastCreatedNode;
-		
+
 		private static Dictionary<Type, NodeProperties> nodeProperties;
-		
+
 		public GraphViewer Viewer { get; set; }
 		public GraphSearch Search { get; set; }
 		public GraphSelection NodeSelection { get; } = new GraphSelection();
 		public GraphInput Input { get; } = new GraphInput();
 		public GraphCanvas Canvas { get; private set; }
-		public GraphWindow Window { get;  set; }
-		
+		public GraphWindow Window { get; set; }
+
 		public CanvasTransform CanvasTransform { get; set; }
-		
+
 		public static IEnumerable<KeyValuePair<Type, NodeProperties>> Behaviours
 		{
 			get { return nodeProperties; }
 		}
-		
+
 		public event Action OnCanvasChanged;
 		private Action<CanvasTransform> MotionAction;
 		private Action<GraphInputEvent> ApplyAction;
@@ -62,10 +63,10 @@ namespace Framework.GraphView.Editor
 				lastCreatedNode.Center = GraphInput.MousePosition(canvas);
 				lastCreatedNode = null;
 			}
-			
+
 			if (Search.IsActive)
 				return;
-			
+
 			if (e.type == EventType.MouseDrag)
 			{
 				if (MotionAction != null)
@@ -102,7 +103,7 @@ namespace Framework.GraphView.Editor
 		{
 			if (Search.IsActive)
 				return;
-			
+
 			float scale = (zoomDirection < 0f) ? (1f - GraphViewer.ZoomDelta) : (1f + GraphViewer.ZoomDelta);
 			Viewer.zoom *= scale;
 
@@ -118,7 +119,7 @@ namespace Framework.GraphView.Editor
 			}
 			else if (NodeSelection.IsMultiSelection)
 			{
-			    StartMultiDrag(e);
+				StartMultiDrag(e);
 			}
 		}
 
@@ -128,7 +129,7 @@ namespace Framework.GraphView.Editor
 			Vector2 offset = GraphSingleDrag.StartDrag(node, e.canvasMousePostion);
 			MotionAction = (canvasTransform) => GraphSingleDrag.Drag(node, GraphInput.MousePosition(canvasTransform), offset);
 		}
-		
+
 		private void StartMultiDrag(GraphInputEvent e)
 		{
 			var nodes = GraphMultiDrag.StartDrag(NodeSelection.SelectedNodes, e.canvasMousePostion);
@@ -150,7 +151,7 @@ namespace Framework.GraphView.Editor
 				{
 					NodeSelection.SetSingleSelection(inputEvent.node);
 				}
-				
+
 				StartDrag(inputEvent);
 			}
 			else
@@ -172,18 +173,18 @@ namespace Framework.GraphView.Editor
 			ApplyAction?.Invoke(e);
 			ClearActions();
 		}
-		
+
 		private void NodeContextClick(object sender, GraphNode e)
 		{
 			NodeSelection.SetSingleSelection(e);
 		}
-		
+
 		private void RemoveSelectedNodes()
 		{
 			Canvas.Remove(node => NodeSelection.IsNodeSelected(node));
 			NodeSelection.SetTreeSelection(Canvas.Tree);
 		}
-		
+
 		private void SingleNodeAction(object sender, NodeContext actionType)
 		{
 			switch (actionType)
@@ -196,24 +197,28 @@ namespace Framework.GraphView.Editor
 				case NodeContext.Delete:
 					RemoveSelectedNodes();
 					break;
-				
+
 				case NodeContext.Duplicate:
 					NodeSelection.SetSingleSelection(GraphNodeCreation.DuplicateSingle(Canvas, NodeSelection.SingleSelectedNode));
 					break;
-				
+
 				case NodeContext.DuplicateSelection:
 					NodeSelection.SetMultiSelection(GraphNodeCreation.DuplicateMultiple(Canvas, NodeSelection.SelectedNodes));
+					break;
+
+				case NodeContext.OpenSource:
+					OpenSource(NodeSelection.SingleSelectedNode.Behaviour);
 					break;
 			}
 
 			//UpdateAbortableSelection();
 		}
-		
+
 		public void ClearActions()
 		{
 			if (Search.IsActive)
 				return;
-			
+
 			ApplyAction = null;
 			MotionAction = null;
 			Viewer.CustomDraw = null;
@@ -247,14 +252,14 @@ namespace Framework.GraphView.Editor
 		{
 			//if (startEvent.node.HasOutput == false)
 			//	return;
-			
+
 			bool isOutputFocused = startEvent.isOutputFocused;
 
 			GraphNode parent = isOutputFocused ? startEvent.node : GraphConnection.StartConnection(startEvent.node);
 
 			if ((isOutputFocused && startEvent.node.HasOutput == false))
 				return;
-			
+
 			if (parent != null)
 			{
 				ApplyAction = (applyEvent) =>
@@ -270,7 +275,7 @@ namespace Framework.GraphView.Editor
 					{
 						if (isOutputFocused)
 						{
-							Search.Open(Event.current.mousePosition, Window.position);	
+							Search.Open(Event.current.mousePosition, Window.position);
 						}
 					}
 				};
@@ -292,20 +297,20 @@ namespace Framework.GraphView.Editor
 		{
 			var node = Canvas.CreateNode(type);
 			NodeSelection.SetSingleSelection(node);
-			
+
 			lastCreatedNode = node;
 		}
-		
+
 		private void CreateNodeFromType(object sender, Type type)
 		{
 			CreateNodeFromType(type);
 		}
-		
+
 		public static void FetchGraphBehaviours(IGraphNodeRules graphNodeRules)
 		{
 			nodeProperties = graphNodeRules.FetchGraphBehaviours();
 		}
-		
+
 		public static NodeProperties GetNodeProperties(Type type)
 		{
 			if (nodeProperties.TryGetValue(type, out var properties))
@@ -314,6 +319,13 @@ namespace Framework.GraphView.Editor
 			}
 
 			return null;
+		}
+		
+		private void OpenSource(GraphBehaviour graphBehaviour)
+		{
+			var monoScript = MonoScript.FromScriptableObject(graphBehaviour);
+			var scriptPath = AssetDatabase.GetAssetPath(monoScript);
+			InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
 		}
 	}
 }

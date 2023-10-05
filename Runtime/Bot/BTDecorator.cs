@@ -6,12 +6,17 @@ namespace Framework.Bot
 	{
 		public BTNode child;
 
+		public bool invert;
+		
 		public override NodeType NodeType => NodeType.Decorator;
 		public override int MaxChildCount => 1;
 
 		protected override BTStatus OnUpdate()
 		{
-			if (DryRun())
+			var runResult = DryRun();
+			runResult = invert ? !runResult : runResult;
+			
+			if (runResult)
 			{
 				if (child == null)
 					return BTStatus.Success;

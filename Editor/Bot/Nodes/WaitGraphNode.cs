@@ -9,7 +9,7 @@ namespace Framework.Bot.Editor
 		private bool editMode;
 
 		public override Vector2 Size => new Vector2(175, 105);
-		public override Color Outline => new Color(0f, 0f, 0f);
+		public override Color Outline => BTLocalPreferences.Instance.waitColor;
 
 		public override void OnGUI(Rect rect)
 		{

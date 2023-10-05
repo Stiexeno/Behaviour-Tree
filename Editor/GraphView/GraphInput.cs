@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Framework.GraphView.Editor
 {
-	public enum NodeContext { FormatTree, Delete, DuplicateSelection, Duplicate }
+	public enum NodeContext { FormatTree, Delete, DuplicateSelection, Duplicate, OpenSource}
 
 	public class GraphInput
 	{
@@ -15,8 +15,7 @@ namespace Framework.GraphView.Editor
 		public event EventHandler<GraphInputEvent> Click;
 		public event EventHandler<GraphInputEvent> MouseDown;
 		public event EventHandler<GraphInputEvent> MouseUp;
-
-		
+        
 		public static event EventHandler<GraphInputEvent> DoubleClick;
 
 		public event EventHandler<GraphNode> NodeContextClick;
@@ -185,8 +184,9 @@ namespace Framework.GraphView.Editor
 			var menu = new GenericMenu();
 			menu.AddItem(new GUIContent("Delete"), false, OnNodeAction, NodeContext.Delete);
 			menu.AddItem(new GUIContent("Duplicate"), false, OnNodeAction, NodeContext.Duplicate);
-			menu.AddSeparator("");
 			menu.AddItem(new GUIContent("Format Subtree"), false, OnNodeAction, NodeContext.FormatTree);
+			menu.AddSeparator("");
+			menu.AddItem(new GUIContent("Open Source"), false, OnNodeAction, NodeContext.OpenSource);
 			return menu;
 		}
 

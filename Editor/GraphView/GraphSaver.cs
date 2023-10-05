@@ -133,10 +133,13 @@ namespace Framework.GraphView.Editor
 		{
 			foreach (var node in behaviours)
 			{
+				if (node == null)
+					continue;
+				
 				if (!AssetDatabase.Contains(node))
 				{
 					node.name = node.GetType().Name;
-					//node.hideFlags = HideFlags.HideInHierarchy;
+					node.hideFlags = HideFlags.HideInHierarchy;
 					AssetDatabase.AddObjectToAsset(node, tree);
 				}
 			}

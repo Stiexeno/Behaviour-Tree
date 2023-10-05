@@ -10,7 +10,7 @@ namespace Framework.Bot.Editor
 		private BTRoot btRoot;
 	
 		public override Vector2 Size => new Vector2(100, 40);
-		public override Color Outline => new Color(0.73f, 0.73f, 0.75f);
+		public override Color Outline => BTLocalPreferences.Instance.rootColor;
 
 		public override void OnGUI(Rect rect)
 		{

@@ -119,7 +119,7 @@ namespace Framework.GraphView.Editor
 		{
 			if (behaviour == null)
 				return null;
-
+            
 			var windows = Resources.FindObjectsOfTypeAll<T>();
 
 			T window = windows.FirstOrDefault();
@@ -133,7 +133,7 @@ namespace Framework.GraphView.Editor
 			window.SetTree(behaviour);
 			return window;
 		}
-
+		
 		protected override void OnEnable()
 		{
 			GraphEditor.FetchGraphBehaviours(Rules);

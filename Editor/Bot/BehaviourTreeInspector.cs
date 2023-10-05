@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Framework.GraphView.Editor;
 using Framework.Bot;
 using UnityEditor;
@@ -25,16 +26,16 @@ namespace Framework.Bot.Editor
 
 		private List<string> savedGraphs;
 
-		private GUIContent loadIcon = new GUIContent("", BehaviourTreePreferences.Instance.loadIcon);
-		private GUIContent saveIcon = new GUIContent("", BehaviourTreePreferences.Instance.saveIcon);
-		private GUIContent formatIcon = new GUIContent("", BehaviourTreePreferences.Instance.formatIcon);
-		private GUIContent createIcon = new GUIContent("", BehaviourTreePreferences.Instance.createIcon);
+		private GUIContent loadIcon = new GUIContent("", BehaviourTreePreferences.Instance.loadIcon, "Load");
+		private GUIContent saveIcon = new GUIContent("", BehaviourTreePreferences.Instance.saveIcon, "Save");
+		private GUIContent createIcon = new GUIContent("", BehaviourTreePreferences.Instance.createIcon, "Create");
+		private GUIContent formatIcon = new GUIContent("", BehaviourTreePreferences.Instance.formatIcon, "Format");
+		private GUIContent settingsIcon = new GUIContent("", BehaviourTreePreferences.Instance.settingsIcon, "Settings");
 
 		public BehaviourTreeInspector(GraphWindow graphWindow)
 		{
 			this.window = graphWindow;
-
-			savedGraphs = BehaviourTreePreferences.Instance.GetSavedGraphs();
+			savedGraphs = BTLocalPreferences.Instance.GetSavedGraphs();
 		}
 
 		public void OnEnable()
@@ -71,7 +72,7 @@ namespace Framework.Bot.Editor
 			//DrawContent(inspectorRect);
 			DrawTabs();
 			DrawNavigation();
-			DrawLayers();
+			//DrawLayers();
 			DrawZoom();
 		}
 
@@ -96,10 +97,11 @@ namespace Framework.Bot.Editor
 
 		private void DrawTabs()
 		{
-			var toolbarRect = rect.SetHeight(23f);
-			EditorGUI.DrawRect(toolbarRect, new Color(0.1f, 0.1f, 0.1f));
+			var toolbarRect = rect.SetHeight(30f).AddY(32f);
+			GraphStyle.DrawHorizontalLine(toolbarRect.AddY(-1), 1, new Color(0.48f, 0.48f, 0.48f));
+			EditorGUI.DrawRect(toolbarRect, new Color(0.11f, 0.11f, 0.11f));
 
-			GUILayout.BeginArea(toolbarRect.AddX(5));
+			GUILayout.BeginArea(toolbarRect);
 			GUILayout.BeginHorizontal();
 
 			for (int i = 0; i < savedGraphs.Count; i++)
@@ -107,7 +109,12 @@ namespace Framework.Bot.Editor
 				var graphNames = savedGraphs[i].Split("/");
 				var graphName = $"{graphNames[^1].Replace(".asset", "")}";
 				var style = window.Tree != null && graphName == window.Tree.name ? GraphStyle.ToolbarTabActive : GraphStyle.ToolbarTab;
-				if (GUILayout.Button(graphName, style, GUILayout.Height(23f)))
+				//if (GUILayout.Button(graphName, style, GUILayout.Height(23f)))
+				//{
+				//	
+				//}
+
+				if (DrawTabButton(graphName, savedGraphs[i], window.Tree != null && graphName == window.Tree.name))
 				{
 					var graph = AssetDatabase.LoadAssetAtPath<BehaviourTree>(savedGraphs[i]);
 					if (graph != null)
@@ -116,13 +123,30 @@ namespace Framework.Bot.Editor
 					}
 				}
 
-				if (GUILayout.Button(new GUIContent("", BehaviourTreePreferences.Instance.closeIcon), GraphStyle.IconCenter, GUILayout.Width(15),
-					    GUILayout.Height(23)))
-				{
-					BehaviourTreePreferences.Instance.RemoveSavedGraph(savedGraphs[i]);
-				}
-
-				GUILayout.Space(5);
+				// GUILayout.Space(2);
+				
+				// if (GUILayout.Button(new GUIContent("", BehaviourTreePreferences.Instance.closeIcon), GraphStyle.IconCenter, GUILayout.Width(15),
+				// 	    GUILayout.Height(23)))
+				// {
+				// 	var result= EditorUtility.DisplayDialog("Close tab",
+				// 		$"Do you want to close {graphName} tab?", "Close", "Cancel");
+				//
+				// 	if (result)
+				// 	{
+				// 		BTLocalPreferences.Instance.RemoveSavedGraph(savedGraphs[i]);
+				//
+				// 		if (savedGraphs.Count <= 0)
+				// 		{
+				// 			window.SetTree(null);
+				// 		}
+				// 		else
+				// 		{
+				// 			var lastSavedGraph = BTLocalPreferences.Instance.GetSavedGraphs().LastOrDefault();
+				// 			var graph = AssetDatabase.LoadAssetAtPath<BehaviourTree>(lastSavedGraph);
+				// 			window.SetTree(graph);
+				// 		}
+				// 	}
+				// }
 			}
 
 			GUILayout.FlexibleSpace();
@@ -133,37 +157,47 @@ namespace Framework.Bot.Editor
 
 		private void DrawNavigation()
 		{
-			const float buttonWidth = 30f;
-
-			var toolbarRect = rect.SetHeight(35f).AddY(23f);
-			GraphStyle.DrawHorizontalLine(toolbarRect, 1, new Color(0.25f, 0.25f, 0.25f));
+			var toolbarRect = rect.SetHeight(30f);
 
 			toolbarRect = toolbarRect.AddY(1f);
-			EditorGUI.DrawRect(toolbarRect, new Color(0.1f, 0.1f, 0.1f));
+			EditorGUI.DrawRect(toolbarRect, new Color(0.11f, 0.11f, 0.11f));
 
-			GUILayout.BeginArea(toolbarRect.AddY(2.5f).AddX(5));
+			GUILayout.BeginArea(toolbarRect.AddY(2.5f).AddX(5).AddWidth(-10));
 
 			GUILayout.BeginHorizontal();
-			if (GUILayout.Button(loadIcon, GUILayout.Width(30f), GUILayout.Height(buttonWidth)))
+
+			GUI.color = new Color(0.78f, 0.79f, 0.82f);
+            
+			if (DrawNavigationButton(loadIcon))
 			{
 				window.Load();
 			}
-
-			if (GUILayout.Button(saveIcon, GUILayout.Width(30f), GUILayout.Height(buttonWidth)))
+			
+			if (DrawNavigationButton(saveIcon))
 			{
 				window.QuickSave();
 			}
-
-			if (GUILayout.Button(formatIcon, GUILayout.Width(30f), GUILayout.Height(buttonWidth)))
-			{
-				window.FormatTree();
-			}
-
-			if (GUILayout.Button(createIcon, GUILayout.Width(30f), GUILayout.Height(buttonWidth)))
+			
+			if (DrawNavigationButton(createIcon))
 			{
 				window.CreateNew<BehaviourTree>();
 			}
+			
+			if (DrawNavigationButton(formatIcon))
+			{
+				window.FormatTree();
+			}
+            
+			GUILayout.FlexibleSpace();
+			
+			if (DrawNavigationButton(settingsIcon))
+			{
+				EditorGUIUtility.PingObject(BehaviourTreePreferences.Instance);
+				Selection.activeObject = BTLocalPreferences.Instance;
+			}
 
+			GUI.color = Color.white;
+			
 			GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 		}
@@ -221,6 +255,72 @@ namespace Framework.Bot.Editor
 
 				window.Repaint();
 			}
+		}
+
+		private bool DrawNavigationButton(GUIContent content)
+		{
+			var controlRect = EditorGUILayout.GetControlRect(false, GUILayout.Width(25), GUILayout.Height(25));
+
+			if (controlRect.Contains(Event.current.mousePosition))
+			{
+				GUI.DrawTexture(
+					controlRect, GraphPreferences.Instance.defaultNodeBackground,
+					ScaleMode.StretchToFill,
+					true,
+					0,
+					new Color(0.38f, 0.38f, 0.38f),
+					0,
+					5f);
+			}
+			
+			if (GUI.Button(controlRect, content, GraphStyle.IconCenter))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		private bool DrawTabButton(string name, string savedGraph, bool active)
+		{
+			var controlRect = EditorGUILayout.GetControlRect(false, GUILayout.Height(30));
+			
+			if (controlRect.Contains(Event.current.mousePosition))
+			{
+				EditorGUI.DrawRect(controlRect, new Color(0.38f, 0.38f, 0.38f));
+			}
+			
+			if (GUI.Button(controlRect, name, GraphStyle.ToolbarTab))
+			{
+				if ((Event.current.type == EventType.Used ||
+				     Event.current.type == EventType.MouseDown) && 
+				    Event.current.button == 1)
+				{
+					BTLocalPreferences.Instance.RemoveSavedGraph(savedGraph);
+
+					if (savedGraphs.Count <= 0)
+					{
+						window.SetTree(null);
+					}
+					else
+					{
+						var lastSavedGraph = BTLocalPreferences.Instance.GetSavedGraphs().LastOrDefault();
+						var graph = AssetDatabase.LoadAssetAtPath<BehaviourTree>(lastSavedGraph);
+						window.SetTree(graph);
+					}
+
+					return false;
+				}
+				
+				return true;
+			}
+
+			if (active)
+			{
+				EditorGUI.DrawRect(controlRect.SetHeight(2).AddY(controlRect.height - 2), new Color(0.98f, 0.78f, 0.05f));
+			}
+            
+			return false;
 		}
 	}
 }

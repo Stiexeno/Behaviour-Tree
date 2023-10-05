@@ -12,10 +12,6 @@ namespace Framework.GraphView
 
 		[SerializeField, HideInInspector] public Blackboard blackboard;
 
-		[HideInInspector] public Vector2 panPosition = Vector2.zero;
-
-		[HideInInspector] public Vector2 zoomPosition = Vector2.one;
-
 		public void ClearStructure()
 		{
 			foreach (GraphBehaviour behaviour in nodes)
@@ -68,6 +64,9 @@ namespace Framework.GraphView
 		/// Unused nodes are nodes that are not part of the root.
 		/// These are ignored when tree executes and excluded when cloning.
 		/// </summary>
-		[SerializeField] public List<GraphBehaviour> unusedNodes = new List<GraphBehaviour>();
+		[SerializeField, HideInInspector] public List<GraphBehaviour> unusedNodes = new List<GraphBehaviour>();
+		
+		[HideInInspector] public Vector2 panPosition = Vector2.zero;
+		[HideInInspector] public Vector2 zoomPosition = Vector2.one;
 	}
 }

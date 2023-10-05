@@ -48,6 +48,9 @@ namespace Framework.GraphView.Editor
 			
 			foreach (var behaviour in behaviours)
 			{
+				if (behaviour == null)
+					continue;
+				
 				GraphNode node = ReconstructEditorNode(behaviour);
 				nodeMap.Add(behaviour, node);
 			}

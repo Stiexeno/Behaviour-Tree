@@ -9,7 +9,7 @@ namespace Framework.Bot.Editor
 		private BTSequence btSequence;
 
 		public override Vector2 Size => new Vector2(175, 70);
-		public override Color Outline => Color.green;
+		public override Color Outline => BTLocalPreferences.Instance.compositeColor;
 
 		public virtual string Header { get; } = "Composite";
 		public virtual Texture2D Icon { get; } = BehaviourTreePreferences.Instance.sequencerIcon;

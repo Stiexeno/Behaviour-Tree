@@ -276,5 +276,10 @@ namespace Framework.GraphView.Editor
 			style.normal.textColor = Color.white;
 			return style;
 		}
+		
+		public string GetFormattedName()
+		{
+			return behaviour.GetType().Name.Replace("Node", "");
+		}
 	}
 }

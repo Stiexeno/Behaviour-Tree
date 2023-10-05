@@ -15,11 +15,10 @@ namespace Framework.Bot.Editor
 		public Texture2D dotIcon;
 
 		public Texture2D saveIcon;
+		public Texture2D settingsIcon;
 		public Texture2D loadIcon;
 		public Texture2D formatIcon;
 		public Texture2D createIcon;
-
-		[HideInInspector] public List<string> savedGraphs = new List<string>();
 		
 		// Private fields
 		
@@ -36,34 +35,6 @@ namespace Framework.Bot.Editor
 
 				return instance;
 			}
-		}
-
-		public void SaveGraph(string path)
-		{
-			if (savedGraphs.Contains(path))
-			{
-				return;
-			}
-
-			savedGraphs.Add(path);
-		}
-
-		public List<string> GetSavedGraphs()
-		{
-			for (int i = savedGraphs.Count - 1; i >= 0; i--)
-			{
-				if (AssetDatabase.LoadAssetAtPath(savedGraphs[i], typeof(BehaviourTree)) == null)
-				{
-					savedGraphs.RemoveAt(i);
-				}
-			}
-
-			return savedGraphs;
-		}
-
-		public void RemoveSavedGraph(string path)
-		{
-			savedGraphs.Remove(path);
 		}
 
 		private static BehaviourTreePreferences LoadDefaultPreferences()
