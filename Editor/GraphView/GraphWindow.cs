@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Framework.Bot.Editor;
-using Framework.GraphView;
 using Framework.Bot;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Framework.GraphView.Editor
 
 		// Properties
 
-		protected GraphEditor Editor { get; private set; }
+		public GraphEditor Editor { get; private set; }
 		private GraphSaver Saver { get; set; }
 		private GraphSearch Search { get; set; }
 		internal GraphViewer Viewer { get; private set; }

@@ -1,4 +1,5 @@
 using Framework.Bot;
+using Framework.Bot.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -252,13 +253,9 @@ namespace Framework.GraphView.Editor
 		public static void DrawNodeConnections(CanvasTransform t, GraphNode node)
 		{
 			if (node.ChildCount() == 0)
-			{
 				return;
-			}
 
-			var prefs = GraphPreferences.Instance;
-
-			Color connectionColor = new Color(0.98f, 0.78f, 0.05f);
+			Color connectionColor = BTLocalPreferences.Instance.connectionColor;
 
 			if (Application.isPlaying)
 			{
@@ -287,29 +284,6 @@ namespace Framework.GraphView.Editor
 
 			// The point where the parent connects to the anchor line.
 			var parentAnchorLineConnection = new Vector2(anchorX, anchorY);
-
-			//foreach (var child in node.Children)
-			//{
-			//	// Get the positions to draw a line between the node and the anchor line.
-			//	Vector2 center = child.InputRect.center;
-			//	center.y += GraphPreferences.Instance.portHeight;
-			//	var anchorLineConnection = new Vector2(center.x, anchorY);
-			//	
-			//	if (IsHovered(t, center, anchorLineConnection))
-			//	{
-			//		connectionColor = new Color(0.98f, 0f, 0.01f);
-			//	}
-			//}
-
-			//if (IsHovered(t, parentAnchorTip, parentAnchorLineConnection))
-			//{
-			//	connectionColor = new Color(0.98f, 0f, 0.01f);
-			//}
-			//
-			//if (IsHovered(t, anchorLineStart, anchorLineEnd))
-			//{
-			//	connectionColor = new Color(0.98f, 0f, 0.01f);
-			//}
 
 			// Draw the lines from the calculated positions.
 			DrawLineCanvasSpace(

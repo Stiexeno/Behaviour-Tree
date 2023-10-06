@@ -9,14 +9,8 @@ namespace Framework.Bot.Editor
 	public class BehaviourTreeInspector : IGUIView
 	{
 		// Private fields
-
-		private float inspectorWidth = 200f;
-		private bool isResizing;
-
+		
 		private bool initialized;
-
-		private Rect inspectorRect;
-		private Vector2 mouseDragStartPosition;
 
 		private Rect rect;
 		private GraphWindow window;
@@ -24,10 +18,10 @@ namespace Framework.Bot.Editor
 		private List<string> savedGraphs;
 
 		private GUIContent loadIcon = new GUIContent("", BehaviourTreePreferences.Instance.loadIcon, "Load");
-		private GUIContent saveIcon = new GUIContent("", BehaviourTreePreferences.Instance.saveIcon, "Save");
+		private GUIContent saveIcon = new GUIContent("", BehaviourTreePreferences.Instance.saveIcon, "Save CTRL+S");
 		private GUIContent createIcon = new GUIContent("", BehaviourTreePreferences.Instance.createIcon, "Create");
-		private GUIContent formatIcon = new GUIContent("", BehaviourTreePreferences.Instance.formatIcon, "Format");
-		private GUIContent settingsIcon = new GUIContent("", BehaviourTreePreferences.Instance.settingsIcon, "Settings");
+		private GUIContent formatIcon = new GUIContent("", BehaviourTreePreferences.Instance.formatIcon, "Format CTRL+G");
+		private GUIContent settingsIcon = new GUIContent("", BehaviourTreePreferences.Instance.settingsIcon, "Settings CTRL+ALT+S");
 
 		public BehaviourTreeInspector(GraphWindow graphWindow)
 		{
@@ -47,8 +41,7 @@ namespace Framework.Bot.Editor
 				OnEnable();
 				initialized = true;
 			}
-
-			inspectorRect = rect;
+            
 			DrawTabs();
 			DrawNavigation();
 			DrawZoom();
@@ -122,8 +115,7 @@ namespace Framework.Bot.Editor
 
 			if (DrawNavigationButton(settingsIcon))
 			{
-				EditorGUIUtility.PingObject(BehaviourTreePreferences.Instance);
-				Selection.activeObject = BTLocalPreferences.Instance;
+				window.Editor.OpenSettings();
 			}
 
 			GUI.color = Color.white;

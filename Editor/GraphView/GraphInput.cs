@@ -25,6 +25,7 @@ namespace Framework.GraphView.Editor
 		public event EventHandler SaveRequest;
 		public event EventHandler OnKeySpace;
 		public event EventHandler OnFormatTree;
+		public event EventHandler OnOpenSettings;
 		public event EventHandler OnKeyDelete;
 		public event EventHandler CanvasLostFocus;
 
@@ -36,7 +37,7 @@ namespace Framework.GraphView.Editor
 
 		public IGraphSelection selection;
 		public readonly GenericMenu nodeTypeSelectionMenu = new GenericMenu();
-		
+
 		public void HandleMouseEvents(
 			Event e,
 			CanvasTransform transform,
@@ -116,7 +117,12 @@ namespace Framework.GraphView.Editor
 
 		private void HandleEditorShortcuts(Event e)
 		{
-			// control+s shortcut to save the tree.
+			if (e.type == EventType.KeyDown && e.control && e.alt && e.keyCode == KeyCode.S)
+			{
+				e.Use();
+				OnOpenSettings?.Invoke(this, EventArgs.Empty);
+			}
+            
 			if (e.type == EventType.KeyUp && e.control && e.keyCode == KeyCode.S)
 			{
 				e.Use();

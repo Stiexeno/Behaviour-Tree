@@ -4,9 +4,7 @@ using Framework.GraphView;
 using Framework.GraphView.Editor;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Framework.Bot.Editor
 {
@@ -19,6 +17,7 @@ namespace Framework.Bot.Editor
 		//BehaviourTreeWindow
 
 		internal override GraphTree Tree { get; set; }
+		
 		protected override IGraphNodeRules Rules { get; } = new BehaviourTreeGraphNodeRules();
 
 		[MenuItem("Framework/Bot/Open Editor")]
@@ -57,7 +56,7 @@ namespace Framework.Bot.Editor
 				Editor.Canvas.SetRoot(node);
 			}
 
-			if (Application.isPlaying == false)
+			if (Application.isPlaying == false && AssetDatabase.Contains(behaviourTree))
 			{
 				BTLocalPreferences.Instance.SaveGraph(AssetDatabase.GetAssetPath(behaviourTree));
 			}

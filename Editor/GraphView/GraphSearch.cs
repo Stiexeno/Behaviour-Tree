@@ -14,6 +14,7 @@ namespace Framework.GraphView.Editor
 		private string searchQuerry = "";
 
 		private GraphEditor editor;
+		private Action onClose;
 
 		// Properties
 
@@ -35,8 +36,9 @@ namespace Framework.GraphView.Editor
 			}
 		}
 
-		public void Open(Vector2 mousePosition, Rect rect)
+		public void Open(Vector2 mousePosition, Rect rect, Action onClose = null)
 		{
+			this.onClose = onClose;
 			var clampedRect = new Rect(mousePosition, new Vector2(350, 380));
 			clampedRect = clampedRect.ClampToRect(rect, 5);
 			this.position = new Vector2(clampedRect.x, clampedRect.y);
@@ -49,6 +51,7 @@ namespace Framework.GraphView.Editor
 		{
 			IsActive = false;
 			editor.ClearActions();
+			onClose?.Invoke();
 		}
 
 		public Rect Draw()

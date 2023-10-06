@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Framework.GraphView;
+using Framework.Bot.Editor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -11,15 +11,16 @@ namespace Framework.GraphView.Editor
 	public class GraphEditor
 	{
 		private GraphNode lastCreatedNode;
+		private GraphNode pendingParentConnection;
 
 		private static Dictionary<Type, NodeProperties> nodeProperties;
 
 		public GraphViewer Viewer { get; set; }
 		public GraphSearch Search { get; set; }
-		public GraphSelection NodeSelection { get; } = new GraphSelection();
-		public GraphInput Input { get; } = new GraphInput();
 		public GraphCanvas Canvas { get; private set; }
 		public GraphWindow Window { get; set; }
+		public GraphInput Input { get; } = new GraphInput();
+		public GraphSelection NodeSelection { get; } = new GraphSelection();
 
 		public CanvasTransform CanvasTransform { get; set; }
 
@@ -40,6 +41,7 @@ namespace Framework.GraphView.Editor
 			Input.MouseUp += MouseUp;
 			Input.NodeActionRequest += SingleNodeAction;
 			Input.NodeContextClick += NodeContextClick;
+			Input.OnOpenSettings += OpenSettings;
 		}
 
 		public void SetGraphTree(GraphTree tree)
@@ -60,7 +62,9 @@ namespace Framework.GraphView.Editor
 		{
 			if (lastCreatedNode != null)
 			{
-				lastCreatedNode.Center = GraphInput.MousePosition(canvas);
+				var creationPosition = GraphInput.MousePosition(canvas);
+                
+				lastCreatedNode.Center = creationPosition;
 				lastCreatedNode = null;
 			}
 
@@ -250,9 +254,6 @@ namespace Framework.GraphView.Editor
 
 		private void StartConnection(GraphInputEvent startEvent)
 		{
-			//if (startEvent.node.HasOutput == false)
-			//	return;
-
 			bool isOutputFocused = startEvent.isOutputFocused;
 
 			GraphNode parent = isOutputFocused ? startEvent.node : GraphConnection.StartConnection(startEvent.node);
@@ -275,7 +276,11 @@ namespace Framework.GraphView.Editor
 					{
 						if (isOutputFocused)
 						{
-							Search.Open(Event.current.mousePosition, Window.position);
+							pendingParentConnection = parent;
+							Search.Open(Event.current.mousePosition, Window.position, () =>
+							{
+								pendingParentConnection = null;
+							});
 						}
 					}
 				};
@@ -286,8 +291,7 @@ namespace Framework.GraphView.Editor
 					start.y -= GraphPreferences.Instance.portHeight;
 					var end = Event.current.mousePosition;
 
-					GraphDrawer.DrawRectConnectionScreenSpace(start, end, new Color(0.98f, 0.78f, 0.05f));
-
+					GraphDrawer.DrawRectConnectionScreenSpace(start, end, BTLocalPreferences.Instance.connectionColor);
 					OnCanvasChanged();
 				};
 			}
@@ -299,6 +303,11 @@ namespace Framework.GraphView.Editor
 			NodeSelection.SetSingleSelection(node);
 
 			lastCreatedNode = node;
+
+			if (pendingParentConnection != null)
+			{
+				GraphConnection.FinishConnection(Canvas, pendingParentConnection, node);
+			}
 		}
 
 		private void CreateNodeFromType(object sender, Type type)
@@ -326,6 +335,17 @@ namespace Framework.GraphView.Editor
 			var monoScript = MonoScript.FromScriptableObject(graphBehaviour);
 			var scriptPath = AssetDatabase.GetAssetPath(monoScript);
 			InternalEditorUtility.OpenFileAtLineExternal(scriptPath, 0);
+		}
+
+		public void OpenSettings()
+		{
+			OpenSettings(null, null);
+		}
+		
+		private void OpenSettings(object sender, EventArgs e)
+		{
+			EditorGUIUtility.PingObject(BehaviourTreePreferences.Instance);
+			Selection.activeObject = BTLocalPreferences.Instance;
 		}
 	}
 }

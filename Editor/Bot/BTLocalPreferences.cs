@@ -11,6 +11,8 @@ namespace Framework.Bot.Editor
 		public Color decoratorColor = new Color(1f, 0.56f, 0f);
 		public Color waitColor = Color.black;
 		public Color leafColor = Color.black;
+		
+		public Color connectionColor = new Color(0.98f, 0.78f, 0.05f);
         
 		[HideInInspector] public List<string> savedGraphs = new List<string>();
 		
@@ -67,20 +69,18 @@ namespace Framework.Bot.Editor
 
 		private static BTLocalPreferences LoadDefaultPreferences()
 		{
-			var prefs = AssetDatabase.LoadAssetAtPath<BTLocalPreferences>("Assets/Resources/Bot/BTLocalPreferences.asset");
+			var prefs = AssetDatabase.LoadAssetAtPath<BTLocalPreferences>(PATH);
 
 			if (prefs == null)
 			{
 				prefs = CreateInstance<BTLocalPreferences>();
-				
-				var path = "Assets/Resources/Bot/BTLocalPreferences.asset";
-
+                
 				if (AssetDatabase.IsValidFolder("Assets/Resources/Bot") == false)
 				{
 					AssetDatabase.CreateFolder("Assets/Resources", "Bot");
 				}
 				
-				AssetDatabase.CreateAsset(prefs, path);
+				AssetDatabase.CreateAsset(prefs, PATH);
 			}
 
 			return prefs;
