@@ -118,13 +118,13 @@ namespace Framework.GraphView.Editor
 
 		private void HandleEditorShortcuts(Event e)
 		{
-			if (e.type == EventType.KeyDown && e.control && e.alt && e.keyCode == KeyCode.S)
+			if (e.type == EventType.KeyDown && (e.control || e.command) && e.alt && e.keyCode == KeyCode.S)
 			{
 				e.Use();
 				OnOpenSettings?.Invoke(this, EventArgs.Empty);
 			}
             
-			if (e.type == EventType.KeyUp && e.control && e.keyCode == KeyCode.S)
+			if (e.type == EventType.KeyUp && (e.control || e.command) && e.keyCode == KeyCode.S)
 			{
 				e.Use();
 				SaveRequest?.Invoke(this, EventArgs.Empty);
@@ -142,7 +142,7 @@ namespace Framework.GraphView.Editor
 				OnNodeAction(NodeContext.Delete);
 			}
 			
-			if (e.type == EventType.KeyDown && e.control && e.keyCode == KeyCode.G)
+			if (e.type == EventType.KeyDown && (e.control || e.command) && e.keyCode == KeyCode.G)
 			{
 				e.Use();
 				OnFormatTree?.Invoke(this, EventArgs.Empty);
