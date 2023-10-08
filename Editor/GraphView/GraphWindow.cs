@@ -152,7 +152,7 @@ namespace Framework.GraphView.Editor
 			Saver.SaveMessage += (sender, message) => ShowNotification(new GUIContent(message), 0.5f);
 			Editor.Input.OnKeySpace += OpenSearch;
 			Editor.Input.OnFormatTree += FormatTree;
-			Editor.Input.CanvasContextClick += OpenSearch;
+			Editor.Input.OnSearchOpen += OpenSearch;
 
 			EditorApplication.playModeStateChanged += PlayModeStateChanged;
 			AssemblyReloadEvents.beforeAssemblyReload += BeforeAssemblyReload;

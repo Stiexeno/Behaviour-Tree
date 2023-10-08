@@ -26,6 +26,7 @@ namespace Framework.GraphView.Editor
 		public event EventHandler OnKeySpace;
 		public event EventHandler OnFormatTree;
 		public event EventHandler OnOpenSettings;
+		public event EventHandler OnSearchOpen;
 		public event EventHandler OnKeyDelete;
 		public event EventHandler CanvasLostFocus;
 
@@ -146,6 +147,12 @@ namespace Framework.GraphView.Editor
 				e.Use();
 				OnFormatTree?.Invoke(this, EventArgs.Empty);
 			}
+
+			if (e.type == EventType.ContextClick && !e.control && !e.alt)
+			{
+				e.Use();
+				OnSearchOpen?.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		private void HandleContextInput(CanvasTransform t, IReadOnlyList<GraphNode> nodes)
@@ -223,7 +230,7 @@ namespace Framework.GraphView.Editor
 
 		public static bool IsPanAction(Event e)
 		{
-			return e.type == EventType.MouseDrag && e.button == 2;
+			return e.type == EventType.MouseDrag && e.button == 2 || e.type == EventType.MouseDrag && e.alt && e.button == 1;
 		}
 
 		public static bool IsZoomAction(Event e)

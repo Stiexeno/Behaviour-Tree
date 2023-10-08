@@ -27,6 +27,7 @@ namespace Framework.Bot.Editor
 			if (GUI.Button(rect.AddY(35).SetHeight(20).SetWidth(60), "", GUIStyle.none))
 			{
 				decorator.invert = !decorator.invert;
+				EditorUtility.SetDirty(decorator);
 			}
 		}
 	}
