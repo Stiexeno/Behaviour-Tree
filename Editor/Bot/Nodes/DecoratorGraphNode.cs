@@ -11,11 +11,14 @@ namespace Framework.Bot.Editor
 
 		public override void OnGUI(Rect rect)
 		{
+			var decorator = Behaviour as BTDecorator;
+			var nodeName = GetFormattedName().AddSpacesBetweenCapital();
+			nodeName = decorator.invert ? $"NOT {nodeName}" : nodeName;
+			
 			DynamicSize = Size;
-			EditorGUI.LabelField(rect.SetHeight(20f), GetFormattedName().AddSpacesBetweenCapital(), GraphStyle.Header0Middle);
+			EditorGUI.LabelField(rect.SetHeight(20f), nodeName, GraphStyle.Header0Middle);
 			GraphStyle.DrawHorizontalLine(rect.AddY(30));
 
-			var decorator = Behaviour as BTDecorator;
 			var invertText = decorator.invert ? "Invert" : "Direct";
 			
 			GUI.color = decorator.invert ? new Color(0.97f, 0.02f, 0f) : new Color(0f, 0.97f, 0.02f);
