@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Framework.GraphView.Editor;
@@ -15,8 +16,13 @@ namespace Framework.Bot.Editor
 		private Rect rect;
 		private GraphWindow window;
 
+		private List<BehaviourTree> behaviourTrees = new List<BehaviourTree>();
+		private GraphSearchMenu menu = new GraphSearchMenu();
+		
 		private List<string> savedGraphs;
 
+		// Icons
+		
 		private GUIContent loadIcon = new GUIContent("", BehaviourTreePreferences.Instance.loadIcon, "Load");
 		private GUIContent saveIcon = new GUIContent("", BehaviourTreePreferences.Instance.saveIcon, "Save CTRL+S");
 		private GUIContent createIcon = new GUIContent("", BehaviourTreePreferences.Instance.createIcon, "Create");
@@ -31,6 +37,7 @@ namespace Framework.Bot.Editor
 
 		public void OnEnable()
 		{
+			GatherBehaviourTrees();
 		}
 
 		public void OnGUI(EditorWindow window, Rect rect)
@@ -49,8 +56,8 @@ namespace Framework.Bot.Editor
 
 		private void DrawTabs()
 		{
-			var toolbarRect = rect.SetHeight(30f).AddY(31f);
-			GraphStyle.DrawHorizontalLine(toolbarRect.AddY(-1), 1, new Color(0.48f, 0.48f, 0.48f));
+			var toolbarRect = rect.SetHeight(30f).AddY(32f);
+			GraphStyle.DrawHorizontalLine(toolbarRect.AddY(-2), 2, new Color(0.25f, 0.25f, 0.25f));
 			EditorGUI.DrawRect(toolbarRect, new Color(0.11f, 0.11f, 0.11f));
 
 			GUILayout.BeginArea(toolbarRect);
@@ -89,19 +96,21 @@ namespace Framework.Bot.Editor
 
 			GUI.color = new Color(0.78f, 0.79f, 0.82f);
 
-			if (DrawNavigationButton(createIcon))
+			if (DrawNavigationButton(saveIcon))
 			{
-				window.CreateNew<BehaviourTree>();
+				window.QuickSave();
 			}
 			
 			if (DrawNavigationButton(loadIcon))
 			{
-				window.Load();
+				GatherBehaviourTrees();
+				
+				window.OpenSearch(menu, overrideSize:new Vector2(280, 310));
 			}
-
-			if (DrawNavigationButton(saveIcon))
+			
+			if (DrawNavigationButton(createIcon))
 			{
-				window.QuickSave();
+				window.CreateNew<BehaviourTree>();
 			}
 
 			GUILayout.Space(15f);
@@ -123,18 +132,7 @@ namespace Framework.Bot.Editor
 			GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 		}
-
-		private void DrawZoom()
-		{
-			var zoomRect = rect;
-			zoomRect = zoomRect.SetWidth(100f).SetHeight(20f).AddX(rect.width - 80f).SetY(rect.height - 30f);
-
-			var zoom = 100 - (window.Viewer.zoom.x - GraphPreferences.Instance.minZoom) /
-				(GraphPreferences.Instance.maxZoom - GraphPreferences.Instance.minZoom) * 100;
-
-			EditorGUI.LabelField(zoomRect, $"Zoom: {Mathf.Round(zoom)}%");
-		}
-
+		
 		private bool DrawNavigationButton(GUIContent content)
 		{
 			var controlRect = EditorGUILayout.GetControlRect(false, GUILayout.Width(25), GUILayout.Height(25));
@@ -199,6 +197,41 @@ namespace Framework.Bot.Editor
 			}
 
 			return false;
+		}
+		
+		private void DrawZoom()
+		{
+			var zoomRect = rect;
+			zoomRect = zoomRect.SetWidth(100f).SetHeight(20f).AddX(rect.width - 80f).SetY(rect.height - 30f);
+
+			var zoom = 100 - (window.Viewer.zoom.x - GraphPreferences.Instance.minZoom) /
+				(GraphPreferences.Instance.maxZoom - GraphPreferences.Instance.minZoom) * 100;
+
+			EditorGUI.LabelField(zoomRect, $"Zoom: {Mathf.Round(zoom)}%");
+		}
+		
+		public void GatherBehaviourTrees()
+		{
+			behaviourTrees.Clear();
+			menu.Clear();
+			
+			var behaviourTreeConfigs = AssetDatabase.FindAssets($"t:{typeof(BehaviourTree)}");
+
+			foreach (var tree in behaviourTreeConfigs)
+			{
+				behaviourTrees.Add(AssetDatabase.LoadAssetAtPath<BehaviourTree>(AssetDatabase.GUIDToAssetPath(tree)));
+			}
+			
+			menu.AddHeader("Behaviour trees");
+
+			foreach (var tree in behaviourTrees)
+			{
+				menu.AddItem(tree.name, () =>
+				{
+					window.SetTree(tree);
+					window.Search.Close();
+				});	
+			}
 		}
 	}
 }

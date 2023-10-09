@@ -15,11 +15,12 @@ namespace Framework.GraphView.Editor
 
 		public GraphEditor Editor { get; private set; }
 		private GraphSaver Saver { get; set; }
-		private GraphSearch Search { get; set; }
+		internal GraphSearch Search { get; set; }
 		internal GraphViewer Viewer { get; private set; }
 
 		internal abstract GraphTree Tree { get; set; }
 		protected abstract IGraphNodeRules Rules { get; }
+		public virtual GraphSearchMenu Menu { get; } = new GraphSearchMenu();
 
 		private CanvasTransform CanvasTransform =>
 			new CanvasTransform
@@ -114,6 +115,13 @@ namespace Framework.GraphView.Editor
 		{
 		}
 
+		/// <summary>
+		/// Open the search window.
+		/// </summary>
+		public virtual void OpenSearch(GraphSearchMenu menu = null, Action onClose = null, Vector2 overrideSize = default)
+		{
+		}
+
 		protected static T Open<T>(GraphTree behaviour) where T : GraphWindow
 		{
 			if (behaviour == null)
@@ -196,11 +204,12 @@ namespace Framework.GraphView.Editor
 				Editor.PollInput(Event.current, CanvasTransform, CanvasInputRect);
 				Editor.UpdateView();
 				Viewer.Draw(CanvasTransform);
-				Search.Draw();
 			}
 
 			base.OnGUI();
 			Repaint();
+			
+			Search.Draw();
 		}
 
 		protected void SwitchToRuntimeMode()
@@ -240,7 +249,7 @@ namespace Framework.GraphView.Editor
 		private void OpenSearch(object sender, EventArgs e)
 		{
 			//Viewer.CustomOverlayDraw += DrawSearch;
-			Search.Open(Event.current.mousePosition, position);
+			OpenSearch();
 		}
 
 		private void BuildCanvas()

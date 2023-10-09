@@ -277,7 +277,7 @@ namespace Framework.GraphView.Editor
 						if (isOutputFocused)
 						{
 							pendingParentConnection = parent;
-							Search.Open(Event.current.mousePosition, Window.position, () =>
+							Window.OpenSearch(onClose: () =>
 							{
 								pendingParentConnection = null;
 							});

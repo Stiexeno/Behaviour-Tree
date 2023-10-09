@@ -76,7 +76,7 @@ namespace Framework.GraphView.Editor
 			alignment = TextAnchor.MiddleLeft,
 			normal = new GUIStyleState()
 			{
-				textColor = new Color(1f, 0.79f, 0.05f),
+				textColor = new Color(0.98f, 0.78f, 0.05f),
 				background = Texture2D.blackTexture
 			},
 		};

@@ -15,12 +15,14 @@ namespace Framework.GraphView.Editor
 
 		private GraphEditor editor;
 		private Action onClose;
+		private GraphSearchMenu menu;
+		private Vector2 size;
 
 		// Properties
 
 		public bool IsActive { get; set; }
 
-		public GraphSearchMenu Menu { get; } = new GraphSearchMenu();
+		//public GraphSearchMenu Menu { get; } = new GraphSearchMenu();
 
 		public GraphSearch(GraphEditor editor)
 		{
@@ -35,11 +37,18 @@ namespace Framework.GraphView.Editor
 				Close();
 			}
 		}
-
-		public void Open(Vector2 mousePosition, Rect rect, Action onClose = null)
+		
+		public void Open(GraphSearchMenu menu, Vector2 mousePosition, Rect rect, Vector2 size, Action onClose = null)
 		{
+			this.size = size;
+			if (size == default)
+			{
+				this.size = new Vector2(400, 420);
+			}
+			
+			this.menu = menu;
 			this.onClose = onClose;
-			var clampedRect = new Rect(mousePosition, new Vector2(350, 380));
+			var clampedRect = new Rect(mousePosition, this.size);
 			clampedRect = clampedRect.ClampToRect(rect, 5);
 			this.position = new Vector2(clampedRect.x, clampedRect.y);
 
@@ -54,14 +63,14 @@ namespace Framework.GraphView.Editor
 			onClose?.Invoke();
 		}
 
-		public Rect Draw()
+		public void Draw()
 		{
 			if (IsActive == false)
-				return Rect.zero;
+				return;
 
 			PollInput();
 
-			rect = new Rect(position, new Vector2(400, 420));
+			rect = new Rect(position, size);
 			EditorGUI.DrawRect(rect, new Color(0.1f, 0.1f, 0.1f));
 			GraphStyle.DrawBorderRect(rect, new Color(0.5f, 0.5f, 0.5f), 1f);
 
@@ -72,7 +81,6 @@ namespace Framework.GraphView.Editor
 			EditorGUI.FocusTextInControl("SearchField");
 
 			DrawContent(rect);
-			return rect;
 		}
 
 		private void PollInput()
@@ -85,15 +93,18 @@ namespace Framework.GraphView.Editor
 
 			if (GraphInput.IsClickAction(Event.current))
 				Close();
+			
+			if (GraphInput.IsContextAction(Event.current))
+				Close();
 		}
 
 		private void DrawContent(Rect rect)
 		{
 			var buttonRect = new Rect(rect.x + 5, rect.y + 35, rect.width - 10, 15);
 
-			for (var i = 0; i < Menu.menuItems.Count; i++)
+			for (var i = 0; i < menu.menuItems.Count; i++)
 			{
-				var menuItem = Menu.menuItems[i];
+				var menuItem = menu.menuItems[i];
 
 				if (menuItem.isHeader)
 				{
@@ -149,6 +160,11 @@ namespace Framework.GraphView.Editor
 			});
 		}
 
+		public void Clear()
+		{
+			menuItems.Clear();
+		}
+		
 		public class GraphMenuItem
 		{
 			public string name;

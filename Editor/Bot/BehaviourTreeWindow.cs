@@ -13,11 +13,12 @@ namespace Framework.Bot.Editor
 		// Private fields
 
 		private static BehaviourTreeWindow window;
-
+		
 		//BehaviourTreeWindow
 
 		internal override GraphTree Tree { get; set; }
 		
+		public override GraphSearchMenu Menu { get; } = new GraphSearchMenu();
 		protected override IGraphNodeRules Rules { get; } = new BehaviourTreeGraphNodeRules();
 
 		[MenuItem("Framework/Bot/Open Editor")]
@@ -64,15 +65,14 @@ namespace Framework.Bot.Editor
 
 		private void PopulateSearch()
 		{
-			var menu = Editor.Search.Menu;
-			menu.AddHeader("Behaviour Tree");
-			menu.AddItem("Sequencer", () => RequestCreateNode(typeof(BTSequence)));
-			menu.AddItem("Selector", () => RequestCreateNode(typeof(BTSelector)));
-			menu.AddItem("Parallel", () => RequestCreateNode(typeof(BTParallel)));
-			menu.AddItem("Wait", () => RequestCreateNode(typeof(BTWait)));
+			Menu.AddHeader("Behaviour Tree");
+			Menu.AddHeader("Composite");
+			Menu.AddItem("Sequencer", () => RequestCreateNode(typeof(BTSequence)));
+			Menu.AddItem("Selector", () => RequestCreateNode(typeof(BTSelector)));
+			Menu.AddItem("Parallel", () => RequestCreateNode(typeof(BTParallel)));
 
-			menu.AddHeader("Decorators");
-
+			Menu.AddHeader("Decorators");
+			
 			foreach (var behaviour in GraphEditor.Behaviours)
 			{
 				var nodeType = behaviour.Key;
@@ -82,11 +82,11 @@ namespace Framework.Bot.Editor
 
 				if (nodeType.IsSubclassOf(typeof(BTDecorator)))
 				{
-					menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
+					Menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
 				}
 			}
 
-			menu.AddHeader("Leaf");
+			Menu.AddHeader("Leaf");
 
 			foreach (var behaviour in GraphEditor.Behaviours)
 			{
@@ -98,15 +98,24 @@ namespace Framework.Bot.Editor
 					    behaviour.Key == typeof(BTLog))
 						continue;
 
-					menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
+					Menu.AddItem($"{behaviour.Key.Name.AddSpacesBetweenCapital()}", () => RequestCreateNode(nodeType));
 				}
 			}
+			
+			Menu.AddHeader("Utility");
+			Menu.AddItem("Wait", () => RequestCreateNode(typeof(BTWait)));
 		}
 
 		private void RequestCreateNode(Type nodeType)
 		{
 			Editor.CreateNodeFromType(nodeType);
 			Editor.Search.Close();
+		}
+
+		public override void OpenSearch(GraphSearchMenu menu = null, Action onClose = null, Vector2 overrideSize = default)
+		{
+			var targetMenu = menu ?? this.Menu;
+			Search.Open(targetMenu, Event.current.mousePosition, position, overrideSize, onClose);
 		}
 
 		private static void Validate(BehaviourTree tree)
