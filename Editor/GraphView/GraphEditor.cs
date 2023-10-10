@@ -227,6 +227,8 @@ namespace Framework.GraphView.Editor
 			MotionAction = null;
 			Viewer.CustomDraw = null;
 			Viewer.CustomOverlayDraw = null;
+			
+			GraphDrawer.selectedConnection = -2;
 		}
 
 		private void StartAreaSelection(GraphInputEvent startEvent)
@@ -291,7 +293,7 @@ namespace Framework.GraphView.Editor
 					start.y -= GraphPreferences.Instance.portHeight;
 					var end = Event.current.mousePosition;
 
-					GraphDrawer.DrawRectConnectionScreenSpace(start, end, BTLocalPreferences.Instance.connectionColor);
+					GraphDrawer.DrawPendingConnection(start, end, BTLocalPreferences.Instance.connectionColor);
 					OnCanvasChanged();
 				};
 			}

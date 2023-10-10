@@ -8,8 +8,10 @@ namespace Framework.GraphView.Editor
 	{
 		public Texture2D gridTexture;
 		public Texture2D defaultNodeBackground;
+		public Texture2D defaultConnection;
 		public Texture2D defaultNodeGadient;
 		public Texture2D edgeArrow;
+		 public Texture2D edgeFlow;
 		
 		private static GraphPreferences instance;
 		

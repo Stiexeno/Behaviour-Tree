@@ -22,7 +22,7 @@ namespace Framework.GraphView.Editor
 
 			if (!root.IsParentless())
 			{
-				const float minOffset = 10;
+				const float minOffset = 50;
 				float nodeTop = root.RectPosition.yMin - (root.RectPosition.height / 2) - minOffset;
 				float parentBottom = root.Parent.RectPosition.yMax + (root.Parent.RectPosition.height / 2) + minOffset;
 

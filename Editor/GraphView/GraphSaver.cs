@@ -106,6 +106,7 @@ namespace Framework.GraphView.Editor
 
 			canvas.Tree.unusedNodes = canvasBehaviours.Where(b => b.PreOrderIndex == GraphBehaviour.kInvalidOrder).ToList();
 			
+			GraphDrawer.selectedConnection = -2;
 			SaveTreeMetaData(meta, canvas);
 			AssetDatabase.SaveAssets();
 		}

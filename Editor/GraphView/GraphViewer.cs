@@ -74,6 +74,7 @@ namespace Framework.GraphView.Editor
 			if (Canvas.Nodes == null || Canvas.Nodes.Count == 0)
 				return;
 			
+			GraphDrawer.connectionDrawers.Clear();
 			for (int i = 0; i < nodes.Count; i++)
 			{
 				GraphNode node = nodes[i];

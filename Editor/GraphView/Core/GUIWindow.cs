@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using SF = UnityEngine.SerializeField;
 
 namespace Framework.GraphView.Editor
@@ -22,6 +23,9 @@ namespace Framework.GraphView.Editor
 		}
 
 		public static float ToolbarHeight { get; set; } = 0;
+		
+		public static float EditorDeltaTime { get; private set; }
+		double lastTimeSinceStartup = 0f;
 
 		protected virtual void OnGUI()
 		{
@@ -32,10 +36,22 @@ namespace Framework.GraphView.Editor
 					guiView.OnGUI(this, CanvasInputRect);
 				}
 			}
+			
+			SetEditorDeltaTime();
 		}
 
 		protected virtual void OnEnable()
 		{
+		}
+		
+		private void SetEditorDeltaTime()
+		{
+			if (lastTimeSinceStartup == 0f)
+			{
+				lastTimeSinceStartup = EditorApplication.timeSinceStartup;
+			}
+			EditorDeltaTime = (float)(EditorApplication.timeSinceStartup - lastTimeSinceStartup);
+			lastTimeSinceStartup = EditorApplication.timeSinceStartup;
 		}
 	}
 }

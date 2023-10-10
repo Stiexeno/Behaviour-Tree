@@ -53,7 +53,7 @@ namespace Framework.GraphView
 			this.nodes = nodes.ToList();
 
 			int preOrderIndex = 0;
-			foreach (GraphBehaviour node in nodes)
+			foreach (GraphBehaviour node in this.nodes)
 			{
 				node.treeOwner = this;
 				node.preOrderIndex = preOrderIndex++;

@@ -253,7 +253,7 @@ namespace Framework.GraphView.Editor
 			return e.type == EventType.KeyDown && e.keyCode == KeyCode.Return;
 		}
 
-		private static bool IsUnlickAction(Event e)
+		public static bool IsUnlickAction(Event e)
 		{
 			return e.type == EventType.MouseUp && e.button == 0;
 		}
