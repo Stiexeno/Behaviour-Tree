@@ -9,12 +9,11 @@ namespace Framework.Bot
     {
     	public BTNode root;
 
-        private static BTNode GetInstanceVersion(BehaviourTree tree, BTNode original)
-    	{
-    		int index = original.preOrderIndex;
-    		return tree.nodes[index] as BTNode;
-    	}
-
+        /// <summary>
+        /// Creates a deep copy of the behaviour tree in runtime.
+        /// </summary>
+        /// <param name="blueprint">Reference to the behaviour tree to be cloned.</param>
+        /// <returns>Behaviour tree cloned instance</returns>
         public static BehaviourTree Clone(BehaviourTree blueprint)
     	{
     		var clone = CreateInstance<BehaviourTree>();
@@ -49,6 +48,12 @@ namespace Framework.Bot
     
     		return clone;
     	}
+        
+        private static BTNode GetInstanceVersion(BehaviourTree tree, BTNode original)
+        {
+	        int index = original.preOrderIndex;
+	        return tree.nodes[index] as BTNode;
+        }
     }
 }
 

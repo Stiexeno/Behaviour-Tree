@@ -122,7 +122,7 @@ namespace Framework.GraphView.Editor
 				{
 					Root = null;
 				}
-				
+
 				node.Remove();
 			}
 		}
@@ -130,6 +130,20 @@ namespace Framework.GraphView.Editor
 		public void Remove(Predicate<GraphNode> match)
 		{
 			List<GraphNode> nodesToDestroy = nodes.FindAll(match);
+			
+			var parents = new List<GraphNode>();
+
+			// Register Undo
+			foreach (var node in nodesToDestroy)
+			{
+				if (node.Parent != null)
+				{
+					parents.Add(node.Parent);
+				}
+			}
+			
+			GraphCommand.RecordNodeRemoval(this, nodesToDestroy, parents);
+
 			nodes.RemoveAll(match);
 
 			// Clear root if removed.

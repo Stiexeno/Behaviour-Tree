@@ -5,6 +5,7 @@ using Framework.Bot.Editor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Framework.GraphView.Editor
 {
@@ -305,11 +306,22 @@ namespace Framework.GraphView.Editor
 			NodeSelection.SetSingleSelection(node);
 
 			lastCreatedNode = node;
-
+			
 			if (pendingParentConnection != null)
 			{
 				GraphConnection.FinishConnection(Canvas, pendingParentConnection, node);
+
+				var random = Random.Range(0, 100);
+				Debug.LogError($"Created with {random}");
+				GraphCommand.AppendLastRecord(() =>
+				{
+					Debug.LogError(random);
+					Canvas.Remove(node);
+				});
+				return;
 			}
+			
+			GraphCommand.RecordNodeCreation(Canvas, node);
 		}
 
 		private void CreateNodeFromType(object sender, Type type)

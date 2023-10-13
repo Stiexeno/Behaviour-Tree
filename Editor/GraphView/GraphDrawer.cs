@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Framework.Bot;
 using Framework.Bot.Editor;
 using UnityEditor;
@@ -9,7 +10,7 @@ namespace Framework.GraphView.Editor
 {
 	public static class GraphDrawer
 	{
-		internal static readonly float duration = 3;
+		internal static readonly float duration = 10;
 		internal static int selectedConnection = -2;
 
 		internal static readonly List<Action> connectionDrawers = new List<Action>();
@@ -24,7 +25,7 @@ namespace Framework.GraphView.Editor
 		};
 
 		// Grid
-		
+
 		public static void DrawGrid(Rect canvas, Texture texture, float zoom, Vector2 pan)
 		{
 			const float scale = 1f;
@@ -69,7 +70,7 @@ namespace Framework.GraphView.Editor
 		}
 
 		// Node
-		
+
 		public static void DrawNode(CanvasTransform t, GraphNode node, Color statusColor)
 		{
 			Rect screenRect = node.RectPosition;
@@ -238,7 +239,7 @@ namespace Framework.GraphView.Editor
 		}
 
 		// Connections
-		
+
 		public static void DrawPendingConnection(Vector2 start, Vector2 end, Color color)
 		{
 			var originalColor = Handles.color;
@@ -274,7 +275,7 @@ namespace Framework.GraphView.Editor
 				color,
 				0,
 				0f);
-			
+
 			Handles.color = originalColor;
 		}
 
@@ -315,7 +316,14 @@ namespace Framework.GraphView.Editor
 			var p1 = parentAnchorTip;
 			var p2 = parentAnchorLineConnection;
 
-			foreach (GraphNode child in node.Children)
+			var targetNodes = node.Children;
+			
+			if (Application.isPlaying)
+			{
+				targetNodes = node.Children.OrderBy(n =>
+					n.Behaviour is BTNode btNode && btNode.status == (BTStatus)BTNode.BTEditorStatus.Running).ToList();
+			}
+			foreach (GraphNode child in targetNodes)
 			{
 				// Get the positions to draw a line between the node and the anchor line.
 				Vector2 center = child.InputRect.center;
@@ -325,24 +333,21 @@ namespace Framework.GraphView.Editor
 				var p3 = anchorLineConnection;
 				var p4 = center;
 
-				if ((int)p1.x == (int)p4.x)
-				{
-					DrawLineScreenSpace(t, connectionColor, 3f, p1, p4);
-				}
-				else
-				{
-					DrawLineScreenSpace(t, connectionColor, 3f, p1, p2, p3, p4);
-				}
-
 				if (child.Behaviour is BTNode btNode && btNode.EditorStatus != BTNode.BTEditorStatus.Inactive)
 				{
 					DrawStatusConnections(btNode, t,
-						parentAnchorTip,
-						parentAnchorLineConnection,
-						new Vector2(parentAnchorLineConnection.x, anchorLineStart.y),
-						new Vector2(anchorLineConnection.x, anchorLineEnd.y),
-						anchorLineConnection,
-						center);
+						p1, p2, p3, p4);
+				}
+				else
+				{
+					if ((int)p1.x == (int)p4.x)
+					{
+						DrawLineScreenSpace(t, connectionColor, 3f, p1, p4);
+					}
+					else
+					{
+						DrawLineScreenSpace(t, connectionColor, 3f, p1, p2, p3, p4);
+					}
 				}
 
 				if (HandleClickConnection(t, child.Behaviour.PreOrderIndex,
@@ -390,34 +395,49 @@ namespace Framework.GraphView.Editor
 				0f);
 		}
 
-		private static void DrawStatusConnections(BTNode node, CanvasTransform t, params Vector2[] points)
+		private static void DrawStatusConnections(BTNode node, CanvasTransform t, params Vector3[] points)
 		{
 			var status = node.EditorStatus;
 
+			var color = Color.white;
+
 			if (status == BTNode.BTEditorStatus.Success)
 			{
-				DrawHoveredConnections(t, Color.green, points);
+				color = Color.green;
 			}
 
 			if (status == BTNode.BTEditorStatus.Running)
 			{
-				DrawHoveredConnections(t, new Color(0.28f, 0.26f, 1f), points);
+				color = new Color(0.28f, 0.26f, 1f);
 			}
 
 			if (status == BTNode.BTEditorStatus.Failure)
 			{
-				DrawHoveredConnections(t, Color.red, points);
+				color = Color.red;
 			}
-		}
 
-		private static void DrawHoveredConnections(CanvasTransform t, Color color, params Vector2[] points)
-		{
-			for (int i = 0; i < points.Length - 1; i++)
+			if ((int)points[1].x == (int)points[^1].x)
 			{
-				DrawLineCanvasSpace(t, points[i], points[i + 1], color, 4);
+				if (status == BTNode.BTEditorStatus.Running)
+				{
+					DrawLineHovered(t, color, 4f, points[0], points[^1]);
+				}
+				else
+				{
+					DrawLineScreenSpace(t, color, 3f, points[0], points[^1]);
+				}
 			}
-
-			DrawEdgeArrow(t, points[^1], color);
+			else
+			{
+				if (status == BTNode.BTEditorStatus.Running)
+				{
+					DrawLineHovered(t, color, 4f, points);
+				}
+				else
+				{
+					DrawLineScreenSpace(t, color, 3f, points);
+				}
+			}
 		}
 
 		private static bool HandleClickConnection(CanvasTransform t, int index, params Vector2[] points)
@@ -439,16 +459,16 @@ namespace Framework.GraphView.Editor
 			return false;
 		}
 
-		private static void DrawLineCanvasSpace(CanvasTransform t, Vector2 start, Vector2 end, Color color, float width)
-		{
-			start = t.CanvasToScreenSpace(start);
-			end = t.CanvasToScreenSpace(end);
-
-			if (t.IsScreenAxisLineInView(start, end))
-			{
-				DrawLineScreenSpace(start, end, color, width);
-			}
-		}
+		// private static void DrawLineCanvasSpace(CanvasTransform t, Vector2 start, Vector2 end, Color color, float width)
+		// {
+		// 	start = t.CanvasToScreenSpace(start);
+		// 	end = t.CanvasToScreenSpace(end);
+		//
+		// 	if (t.IsScreenAxisLineInView(start, end))
+		// 	{
+		// 		DrawLineScreenSpace(start, end, color, width);
+		// 	}
+		// }
 
 		private static void DrawLineHovered(CanvasTransform t, Color color, float width, params Vector3[] points)
 		{
@@ -489,16 +509,16 @@ namespace Framework.GraphView.Editor
 			Handles.color = originalColor;
 		}
 
-		private static void DrawLineScreenSpace(Vector2 start, Vector2 end, Color color, float width)
-		{
-			var originalColor = Handles.color;
-			Handles.color = color;
-			Handles.DrawAAPolyLine(GraphPreferences.Instance.defaultNodeBackground, width, start, end);
-			Handles.color = originalColor;
-		}
+		// private static void DrawLineScreenSpace(Vector2 start, Vector2 end, Color color, float width)
+		// {
+		// 	var originalColor = Handles.color;
+		// 	Handles.color = color;
+		// 	Handles.DrawAAPolyLine(GraphPreferences.Instance.defaultNodeBackground, width, start, end);
+		// 	Handles.color = originalColor;
+		// }
 
 		// Utility
-		
+
 		private static Vector3 MultiLerp(Vector3[] points, float normalizedDistance)
 		{
 			if (points.Length == 1)

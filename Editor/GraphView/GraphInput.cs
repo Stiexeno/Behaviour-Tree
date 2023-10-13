@@ -55,7 +55,7 @@ namespace Framework.GraphView.Editor
 			HandleClickActions(transform, nodes, e);
 
 			HandleEditorShortcuts(e);
-
+			
 			if (e.type == EventType.ContextClick)
 			{
 				HandleContextInput(transform, nodes);
@@ -147,16 +147,27 @@ namespace Framework.GraphView.Editor
 				e.Use();
 				OnFormatTree?.Invoke(this, EventArgs.Empty);
 			}
-
-			if (e.type == EventType.ContextClick && !e.control && !e.alt)
+			
+			if (e.type == EventType.KeyDown && (e.control || e.command) && e.keyCode == KeyCode.Z)
 			{
 				e.Use();
-				OnSearchOpen?.Invoke(this, EventArgs.Empty);
+				GraphCommand.Undo();
 			}
 		}
 
 		private void HandleContextInput(CanvasTransform t, IReadOnlyList<GraphNode> nodes)
 		{
+			if (nodes == null || nodes.Count == 0 || NodeUnderMouse(t, nodes) == null)
+			{
+				if (!Event.current.control && !Event.current.alt)
+				{
+					Event.current.Use();
+					OnSearchOpen?.Invoke(this, EventArgs.Empty);
+				}
+				
+				return;
+			}
+			
 			if (selection.IsMultiSelection)
 			{
 				HandleMultiContext();
