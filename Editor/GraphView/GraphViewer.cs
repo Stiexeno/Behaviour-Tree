@@ -38,8 +38,8 @@ namespace Framework.GraphView.Editor
 			ScaleUtility.BeginScale(canvasRect, ZoomScale, 20);
 
 			CustomDraw?.Invoke(canvasTransform);
-			DrawNodes(canvasTransform);
 			DraweConnections(canvasTransform);
+			DrawNodes(canvasTransform);
 			
 			ScaleUtility.EndScale(canvasRect, ZoomScale, 20);
 			
