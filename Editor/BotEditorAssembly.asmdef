@@ -2,7 +2,8 @@
     "name": "BotEditorAssembly",
     "rootNamespace": "",
     "references": [
-        "BotAssembly"
+        "BotAssembly",
+        "AmplifyShaderEditor"
     ],
     "includePlatforms": [
         "Editor"

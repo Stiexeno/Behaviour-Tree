@@ -33,7 +33,10 @@ namespace Framework.GraphView.Editor
 		public event Action OnCanvasChanged;
 		private Action<CanvasTransform> MotionAction;
 		private Action<GraphInputEvent> ApplyAction;
-
+		
+		private Vector2 zoomSmoothVelocity;
+		private Vector2 targetZoom = Vector2.one;
+		
 		public GraphEditor()
 		{
 			Input.selection = NodeSelection;
@@ -51,12 +54,15 @@ namespace Framework.GraphView.Editor
 			Canvas = new GraphCanvas(tree);
 			Viewer.Canvas = Canvas;
 			Viewer.zoom = tree.zoomPosition;
+			targetZoom = tree.zoomPosition;
 			Viewer.panOffset = tree.panPosition;
 		}
 
 		public void UpdateView()
 		{
 			Canvas.OnGUI();
+			
+			//Viewer.zoom = Vector2.Lerp(Viewer.zoom, targetZoom, GUIWindow.EditorDeltaTime * GraphViewer.ZoomSmoothTime);
 		}
 
 		public void PollInput(Event e, CanvasTransform canvas, Rect inputRect)
@@ -108,8 +114,9 @@ namespace Framework.GraphView.Editor
 		{
 			if (Search.IsActive)
 				return;
-
+			
 			float scale = (zoomDirection < 0f) ? (1f - GraphViewer.ZoomDelta) : (1f + GraphViewer.ZoomDelta);
+			
 			Viewer.zoom *= scale;
 
 			float cap = Mathf.Clamp(Viewer.zoom.x, GraphViewer.MinZoom, GraphViewer.MaxZoom);

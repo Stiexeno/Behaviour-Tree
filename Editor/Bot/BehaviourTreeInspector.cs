@@ -28,6 +28,7 @@ namespace Framework.Bot.Editor
 		private GUIContent createIcon = new GUIContent("", BehaviourTreePreferences.Instance.createIcon, "Create");
 		private GUIContent formatIcon = new GUIContent("", BehaviourTreePreferences.Instance.formatIcon, "Format CTRL+G");
 		private GUIContent settingsIcon = new GUIContent("", BehaviourTreePreferences.Instance.settingsIcon, "Settings CTRL+ALT+S");
+		private GUIContent circuitIcon = new GUIContent("", BehaviourTreePreferences.Instance.circuitIcon);
 
 		public BehaviourTreeInspector(GraphWindow graphWindow)
 		{
@@ -43,6 +44,19 @@ namespace Framework.Bot.Editor
 		public void OnGUI(EditorWindow window, Rect rect)
 		{
 			this.rect = rect;
+			
+			var guiContent = new GUIContent("", GraphPreferences.Instance.vingette);
+			//GUI.Label(new Rect(0, 250, rect.width, rect.height), guiContent);
+			
+			GUI.DrawTexture(
+				new Rect(0, 0, rect.width, rect.height), GraphPreferences.Instance.vingette,
+				ScaleMode.StretchToFill,
+				true,
+				0,
+				new Color(1f, 1f, 1f, 0.16f),
+				0,
+				5f);
+
 			if (initialized == false)
 			{
 				OnEnable();
@@ -82,6 +96,8 @@ namespace Framework.Bot.Editor
 
 			GUILayout.EndHorizontal();
 			GUILayout.EndArea();
+			
+			GraphStyle.DrawHorizontalLine(toolbarRect.AddY(toolbarRect.height), 1, new Color(0.25f, 0.25f, 0.25f));
 		}
 
 		private void DrawNavigation()
@@ -191,6 +207,10 @@ namespace Framework.Bot.Editor
 				return true;
 			}
 
+			GUI.color = new Color(0.98f, 0.78f, 0.05f);
+			EditorGUI.LabelField(controlRect.SetWidth(15).SetHeight(15).AddY(controlRect.height / 2f - 7.5f).AddX(5), circuitIcon);
+			GUI.color = Color.white;
+			
 			if (active)
 			{
 				EditorGUI.DrawRect(controlRect.SetHeight(2).AddY(controlRect.height - 2), new Color(0.98f, 0.78f, 0.05f));

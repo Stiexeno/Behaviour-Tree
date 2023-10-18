@@ -139,9 +139,8 @@ namespace Framework.Bot.Editor
 
 						if (composite.children[j] == null)
 						{
-							var children = composite.children.ToList();
-							children.RemoveAt(j);
-							composite.SetChildren(children.ToArray());
+							var validChildrens = composite.children.Where(x => x != null);
+							composite.SetChildren(validChildrens.ToArray());
 						}
 
 						continue;

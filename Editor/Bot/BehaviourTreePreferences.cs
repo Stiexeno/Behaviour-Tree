@@ -12,12 +12,13 @@ namespace Framework.Bot.Editor
 		public Texture2D closeIcon;
 		public Texture2D dotIcon;
 		
-
 		public Texture2D saveIcon;
 		public Texture2D settingsIcon;
 		public Texture2D loadIcon;
 		public Texture2D formatIcon;
 		public Texture2D createIcon;
+		
+		public Texture2D circuitIcon;
 		
 		// Private fields
 		

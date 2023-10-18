@@ -17,7 +17,8 @@ namespace Framework.GraphView.Editor
 		public static float MinZoom => GraphPreferences.Instance.minZoom;
 		public static float MaxZoom => GraphPreferences.Instance.maxZoom;
 		public static float PanSpeed => GraphPreferences.Instance.panSpeed;
-		
+		public static float ZoomSmoothTime => 35f;
+
 		public Action CustomOverlayDraw;
 		public Action<CanvasTransform> CustomDraw;
 
@@ -37,8 +38,8 @@ namespace Framework.GraphView.Editor
 			ScaleUtility.BeginScale(canvasRect, ZoomScale, 20);
 
 			CustomDraw?.Invoke(canvasTransform);
-			DraweConnections(canvasTransform);
 			DrawNodes(canvasTransform);
+			DraweConnections(canvasTransform);
 			
 			ScaleUtility.EndScale(canvasRect, ZoomScale, 20);
 			

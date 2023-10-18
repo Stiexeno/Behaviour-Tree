@@ -48,10 +48,11 @@ namespace Framework.GraphView.Editor
 		{
 			if (lastTimeSinceStartup == 0f)
 			{
-				lastTimeSinceStartup = EditorApplication.timeSinceStartup;
+				lastTimeSinceStartup = Time.realtimeSinceStartup;
 			}
-			EditorDeltaTime = (float)(EditorApplication.timeSinceStartup - lastTimeSinceStartup);
-			lastTimeSinceStartup = EditorApplication.timeSinceStartup;
+			
+			EditorDeltaTime = (float)(Time.realtimeSinceStartup- lastTimeSinceStartup);
+			lastTimeSinceStartup = Time.realtimeSinceStartup;
 		}
 	}
 }

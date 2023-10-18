@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: GraphPreferences
   m_EditorClassIdentifier: 
   gridTexture: {fileID: 2800000, guid: 7dc67ed3f47e61f48b94d3d81223ef6a, type: 3}
-  defaultNodeBackground: {fileID: 2800000, guid: 07ce2f6d67b92fb4ea8ce63a4351786a, type: 3}
+  vingette: {fileID: 2800000, guid: 7458058d0eb0dec45941c3642e051e4c, type: 3}
+  defaultNodeBackground: {fileID: 2800000, guid: b98e230ffde80834993526fa1f5900af, type: 3}
   defaultConnection: {fileID: 2800000, guid: 07ce2f6d67b92fb4ea8ce63a4351786a, type: 3}
   defaultNodeGadient: {fileID: 2800000, guid: b98e230ffde80834993526fa1f5900af, type: 3}
   edgeArrow: {fileID: 2800000, guid: 0934ea91e963db84982ad4428ee511ed, type: 3}
   edgeFlow: {fileID: 2800000, guid: b67e07442177f9d4caa7eb219adfebb7, type: 3}
+  skin: {fileID: 11400000, guid: 844efe597a72e7d478e99f5f1d8d11ba, type: 2}
   zoomDelta: 0.15
   minZoom: 1
   maxZoom: 3

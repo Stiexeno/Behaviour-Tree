@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AmplifyShaderEditor;
 using Framework.Bot;
 using Framework.Bot.Editor;
 using UnityEditor;
@@ -78,21 +79,47 @@ namespace Framework.GraphView.Editor
 
 			Color originalColor = GUI.color;
 
-			DrawNodeGradient(screenRect.AddHeight(6f).AddWidth(6f).AddX(-3f), new Color(0f, 0f, 0f, 0.28f));
+			//DrawNodeGradient(screenRect.AddHeight(6f).AddWidth(6f).AddX(-3f), new Color(0f, 0f, 0f, 0.28f));
 
 			DrawNodeStatus(screenRect, node);
+			
+
+			//DrawOutline(screenRect.Expand(1f), Color.black);
+			
+			//DrawOutline(screenRect.AddHeight(4f).AddY(-2f).AddWidth(-2).AddX(1), node.Outline);
+			
+			//GUI.DrawTexture(screenRect, GraphPreferences.Instance.defaultNodeBackground, ScaleMode.StretchToFill, true, 5, statusColor, 5, 0);
+			//GUI.color = new Color(0.24f, 0.25f, 0.25f);
+			if (screenRect.Contains(Event.current.mousePosition))
+			{
+				GUI.Label(screenRect, string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeSelectedBackground));
+			}
+			else
+			{
+				GUI.Label(screenRect, string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeBackground));
+			}
+			
+			
+			GUI.color = Color.white;
 			if (node.Selected)
 			{
-				DrawSelectedOutline(screenRect.AddHeight(4f).AddY(-2f), new Color(0.27f, 0.85f, 1f), t);
-			}
-			else if (screenRect.Contains(Event.current.mousePosition))
-			{
-				DrawSelectedOutline(screenRect.AddHeight(4f).AddY(-2f), new Color(0.21f, 0.75f, 0.94f, 0.69f), t);
+				GUI.color = new Color(0f, 1f, 0.98f);
+				GUI.Label(screenRect.Expand(3), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeSelectedOutline));
+               
 			}
 
-			//DrawOutline(screenRect.AddHeight(6f).AddY(-4f).AddWidth(2), new Color(0.16f, 0.16f, 0.16f));
-			DrawOutline(screenRect.AddHeight(2f).AddY(-1f).AddWidth(-2).AddX(1), node.Outline);
-			DrawNodeBackground(screenRect, statusColor);
+			//GUI.color = new Color(1f, 1f, 1f, 0.22f);
+			//GUI.Label(screenRect, string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeGradient));
+
+			//GUI.color = new Color(0.09f, 1f, 0.17f);
+			
+			//GUI.color = Color.white;
+
+			GUI.color =	node.Outline;
+			GUI.Label(screenRect.AddWidth(-2).AddX(1f), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeOutline));
+			GUI.color = Color.white;
+
+			//DrawNodeBackground(screenRect, statusColor);
 			DrawPorts(t, node);
 
 			GUI.BeginGroup(screenRect);
@@ -133,43 +160,7 @@ namespace Framework.GraphView.Editor
 				0,
 				5f);
 		}
-
-		private static void DrawOutline(Rect screenRect, Color color)
-		{
-			screenRect.x -= 1;
-			screenRect.y -= 1;
-			screenRect.width += 2;
-			screenRect.height += 2;
-
-			GUI.DrawTexture(
-				screenRect, GraphPreferences.Instance.defaultNodeBackground,
-				ScaleMode.StretchToFill,
-				true,
-				0,
-				color,
-				0,
-				6f);
-		}
-
-		private static void DrawSelectedOutline(Rect screenRect, Color color, CanvasTransform canvasTransform)
-		{
-			var size = Mathf.Clamp(2 * Mathf.Clamp(canvasTransform.zoom, 1f, 2f), 1, float.MaxValue);
-			var offset = size * 2;
-			screenRect.x -= size;
-			screenRect.y -= size;
-			screenRect.width += offset;
-			screenRect.height += offset;
-
-			GUI.DrawTexture(
-				screenRect, GraphPreferences.Instance.defaultNodeBackground,
-				ScaleMode.StretchToFill,
-				true,
-				0,
-				color,
-				0,
-				8f);
-		}
-
+		
 		private static void DrawNodeStatus(Rect rect, GraphNode node)
 		{
 			var btNode = (BTNode)node.Behaviour;
@@ -220,21 +211,29 @@ namespace Framework.GraphView.Editor
 
 			var output = node.OutputRect;
 			output.position = t.CanvasToScreenSpace(node.OutputRect.position);
-			output.y += 3;
-			output.height -= 3;
+			//output.y += 3;
+			//output.height -= 3;
 
-			if (output.Contains(Event.current.mousePosition) && node.HasOutput)
+			if ((output.Contains(Event.current.mousePosition) && node.HasOutput) || node.Children.Count > 0)
 			{
-				GUI.DrawTexture(
-					output, GraphPreferences.Instance.defaultNodeBackground,
-					ScaleMode.StretchToFill,
-					true,
-					0,
-					new Color(0.4f, 0.4f, 0.4f, 0.56f),
-					0,
-					5f);
-
-				GUI.Label(output, $"+", GraphStyle.Header0Center);
+				//GUI.color = new Color(0.24f, 0.25f, 0.25f);
+				GUI.Label(output.SetHeight(15f).AddY(0).AddX(2.5f).AddWidth(-5f), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodePortBox));
+				GUI.Label(output.SetHeight(20f).SetWidth(20f).AddY(3).AddX(output.width / 2f - 10), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodePortCircle));
+			
+				GUI.color = BTLocalPreferences.Instance.connectionColor;
+				GUI.Label(output.SetHeight(10f).SetWidth(10).AddY(3 + 5f).AddX(output.width / 2f - 5f), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodePortCircle));
+				GUI.color = Color.white;
+				
+				//GUI.DrawTexture(
+				//	output, GraphPreferences.Instance.defaultNodeBackground,
+				//	ScaleMode.StretchToFill,
+				//	true,
+				//	0,
+				//	new Color(0.4f, 0.4f, 0.4f, 0.56f),
+				//	0,
+				//	5f);
+//
+				//GUI.Label(output, $"+", GraphStyle.Header0Center);
 			}
 		}
 
@@ -313,8 +312,8 @@ namespace Framework.GraphView.Editor
 			// The point where the parent connects to the anchor line.
 			var parentAnchorLineConnection = new Vector2(anchorX, anchorY);
 
-			var p1 = parentAnchorTip;
-			var p2 = parentAnchorLineConnection;
+			var p1 = parentAnchorTip + Vector2.up * 17f + Vector2.right;
+			var p2 = parentAnchorLineConnection + Vector2.right;
 
 			var targetNodes = node.Children;
 			
@@ -499,11 +498,24 @@ namespace Framework.GraphView.Editor
 				var screenPoint = t.CanvasToScreenSpace(points[i]);
 				points[i] = new Vector2((int)screenPoint.x, (int)screenPoint.y);
 			}
-
+			
+			for (int i = 0; i < points.Length; i++)
+			{
+				//DrawGLLine(points);
+			}
+			
 			var originalColor = Handles.color;
 			Handles.color = color;
-			Handles.DrawAAPolyLine(GraphPreferences.Instance.defaultConnection, width, points);
+			//Handles.DrawAAPolyLine(GraphPreferences.Instance.defaultConnection, width, points);
 
+			//GLDraw.DrawBezier(
+			//	points[0],
+			//	points[0] + Vector3.right * 20,
+			//	points[^1],
+			//	points[^1] + Vector3.right * 20,
+			//	Color.white,
+			//	3f);
+			DrawGLLine(points[0], points[^1]);
 			DrawEdgeArrow(t, edgeArrowPoint, color);
 
 			Handles.color = originalColor;
@@ -558,6 +570,20 @@ namespace Framework.GraphView.Editor
 			}
 
 			return Vector3.zero; // Handle the case where something goes wrong
+		}
+
+		private static void DrawGLLine(params Vector3[] points)
+		{
+			for (int i = 0; i < points.Length - 1; i++)
+			{
+				GLDraw.DrawBezier(
+				points[i],
+				points[i] + Vector3.up * 50f,
+				points[i + 1],
+				points[i + 1] + Vector3.up * -50f,
+				Color.white,
+				3f);
+			}
 		}
 	}
 

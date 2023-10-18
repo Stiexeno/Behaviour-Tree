@@ -1,5 +1,7 @@
 using System;
 using Framework.GraphView;
+using UnityEditor.Graphs;
+using UnityEngine;
 
 namespace Framework.Bot
 {
@@ -89,8 +91,7 @@ namespace Framework.Bot
 		#if UNITY_EDITOR
 
 		public enum BTEditorStatus { Inactive, Success, Failure, Running }
-
-		public BTEditorStatus EditorStatus = BTEditorStatus.Inactive;
+		public BTEditorStatus EditorStatus { get; set; } = BTEditorStatus.Inactive;
 
 		#endif
 	}

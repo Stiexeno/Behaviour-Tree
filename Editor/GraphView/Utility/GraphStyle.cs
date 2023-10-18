@@ -6,6 +6,21 @@ namespace Framework.GraphView.Editor
 {
 	public static class GraphStyle
 	{
+		public enum GraphSkin
+		{
+			NodeOutline = 0,
+			NodeBackground = 1,
+			NodeSelectedOutline = 2,
+			NodeSelectedBackground = 3,
+			NodePortCircle = 4,
+			NodePortBox = 5,
+		}
+
+		public static GUIStyle Skin(GraphSkin skin)
+		{
+			return GraphPreferences.Instance.skin.customStyles[(int)skin];
+		}
+
 		public static readonly GUIStyle Header0Middle = new GUIStyle
 		{
 			richText = true,

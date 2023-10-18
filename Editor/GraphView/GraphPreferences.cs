@@ -7,11 +7,13 @@ namespace Framework.GraphView.Editor
 	public class GraphPreferences : ScriptableObject
 	{
 		public Texture2D gridTexture;
+		public Texture2D vingette;
 		public Texture2D defaultNodeBackground;
 		public Texture2D defaultConnection;
 		public Texture2D defaultNodeGadient;
 		public Texture2D edgeArrow;
 		 public Texture2D edgeFlow;
+		 public GUISkin skin;
 		
 		private static GraphPreferences instance;
 		

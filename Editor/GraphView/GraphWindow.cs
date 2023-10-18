@@ -122,7 +122,13 @@ namespace Framework.GraphView.Editor
 		{
 		}
 
-		protected static T Open<T>(GraphTree behaviour) where T : GraphWindow
+		/// <summary>
+		/// Open GraphView window with given GraphTree.
+		/// </summary>
+		/// <param name="behaviour">Target GraphTree</param>
+		/// <typeparam name="T">Subclass of GraphWindow</typeparam>
+		/// <returns>Instance of new Window</returns>
+		public static T Open<T>(GraphTree behaviour) where T : GraphWindow
 		{
 			if (behaviour == null)
 				return null;
@@ -196,6 +202,7 @@ namespace Framework.GraphView.Editor
 			}
 			else
 			{
+				
 				if (Editor.Canvas == null)
 				{
 					BuildCanvas();
