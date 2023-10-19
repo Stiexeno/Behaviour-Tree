@@ -118,7 +118,7 @@ namespace Framework.GraphView.Editor
 			//GUI.color = Color.white;
 
 			GUI.color =	node.Outline;
-			GUI.Label(screenRect.AddWidth(-2).AddX(1f), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeOutline));
+			GUI.Label(screenRect.AddWidth(-2).AddX(1f).AddHeight(2).AddY(-1), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeOutline));
 			GUI.color = Color.white;
 
 			//DrawNodeBackground(screenRect, statusColor);

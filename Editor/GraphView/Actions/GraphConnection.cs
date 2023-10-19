@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Framework.GraphView.Editor
 {
 	public static class GraphConnection
@@ -17,7 +15,6 @@ namespace Framework.GraphView.Editor
 		public static void FinishConnection(GraphCanvas canvas, GraphNode parent, GraphNode child)
 		{
 			canvas.AddChild(parent, child);
-			Debug.LogError("Recoreded");
 			GraphCommand.RecordConnectionWithChild(child);
 		}
 	}

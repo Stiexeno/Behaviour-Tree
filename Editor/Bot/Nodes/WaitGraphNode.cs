@@ -28,7 +28,7 @@ namespace Framework.Bot.Editor
 
 			var waitBehaviour = (BTWait)Behaviour;
 
-			rect = rect.SetHeight(20f).AddY(80).AddWidth(-10f).AddX(5f);
+			rect = rect.SetHeight(20f).AddY(78).AddWidth(-10f).AddX(5f);
 
 			if (editMode)
 			{
