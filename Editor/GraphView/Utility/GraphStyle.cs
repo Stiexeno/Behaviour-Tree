@@ -15,6 +15,7 @@ namespace Framework.GraphView.Editor
 			NodePortCircle = 4,
 			NodePortBox = 5,
 			NodeShadow = 6,
+			DefaultSeparator = 7,
 		}
 
 		public static GUIStyle Skin(GraphSkin skin)

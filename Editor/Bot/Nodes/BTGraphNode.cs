@@ -9,7 +9,9 @@ namespace Framework.Bot.Editor
 		{
 			DynamicSize = Size;
 			var position = Size;
-			GraphStyle.DrawHorizontalLine(rect.AddY(position.y));
+			
+			GUI.Label(rect.SetHeight(2).AddY(position.y).AddX(1).AddWidth(-2f), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.DefaultSeparator));
+			//GraphStyle.DrawHorizontalLine(rect.AddY(position.y));
 			position.y += 20;
 			DynamicSize = position;
 		}

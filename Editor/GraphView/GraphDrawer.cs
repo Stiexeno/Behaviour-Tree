@@ -89,7 +89,9 @@ namespace Framework.GraphView.Editor
 			
 			//GUI.DrawTexture(screenRect, GraphPreferences.Instance.defaultNodeBackground, ScaleMode.StretchToFill, true, 5, statusColor, 5, 0);
 			//GUI.color = new Color(0.24f, 0.25f, 0.25f);
-			
+			GUI.color = new Color(0.97f, 1f, 1f, 0.26f);
+			GUI.Label(screenRect.Expand(1, 2), string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeShadow));
+			GUI.color = Color.white;
 			if (screenRect.Contains(Event.current.mousePosition))
 			{
 				GUI.Label(screenRect, string.Empty, GraphStyle.Skin(GraphStyle.GraphSkin.NodeSelectedBackground));
