@@ -14,6 +14,7 @@ namespace Framework.Bot
 	    // Private fields
 	    
     	protected BehaviourTree treeInstance;
+	    private bool isActive = true;
     	
 	    // Properties
 	    
@@ -46,12 +47,19 @@ namespace Framework.Bot
 	    {
 		    if (treeInstance == null)
 			    return;
+
+		    if (isActive == false)
+			    return;
 		    
 		    var rootNode = treeInstance.root;
 		    UpdateSubtree(rootNode);
 	    }
-    
-    	private void UpdateSubtree(BTNode node)
+
+	    public void Enable() => isActive = true;
+
+	    public void Disable() => isActive = false;
+
+	    private void UpdateSubtree(BTNode node)
     	{
     		var result = node.RunUpdate();
     		

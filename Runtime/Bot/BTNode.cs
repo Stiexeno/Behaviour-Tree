@@ -1,7 +1,5 @@
 using System;
 using Framework.GraphView;
-using UnityEditor.Graphs;
-using UnityEngine;
 
 namespace Framework.Bot
 {
